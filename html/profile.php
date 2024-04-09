@@ -71,7 +71,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                     <img class="profile_img" src="../images/me.jpg">
                 </div>
             <div class="col-md-6 datas">
-                      <ul class="list-group mb-3" contenteditable="true">
+                      <ul class="list-group mb-3">
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                               <h6 class="my-0">User name</h6>
@@ -105,7 +105,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                           
                           <li class="list-group-item ">
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary btn_edit" type="button">Edit</button>
+                                <a class="btn btn-primary btn_edit" href="logout.php" type="button">LOGOUT</a>
                               </div>
                           </li>
                       </ul>
