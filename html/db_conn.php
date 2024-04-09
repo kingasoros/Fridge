@@ -2,7 +2,7 @@
 
 $sname = "localhost";
 $unmae = "root";
-$password = "root";
+$password = "";
 
 $db_name = "fridge";
 
