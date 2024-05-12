@@ -15,7 +15,7 @@ if (isset($_GET['token'])) {
         // Token érvényes, frissítsd a felhasználó státuszát
         $row = mysqli_fetch_assoc($result);
         $userId = $row['profil_id'];
-        $sqlUpdate = "UPDATE profil SET activated = 1 WHERE profil_id = $userId ";
+        $sqlUpdate = "UPDATE profil SET activated = 0 WHERE profil_id = $userId ";
         if (mysqli_query($conn, $sqlUpdate)) {
             // Sikeres aktiváció, továbbítsd a felhasználót egy "sikeres aktiváció" oldalra
             header("Location: ../index.html");
@@ -24,17 +24,17 @@ if (isset($_GET['token'])) {
             // Hiba az adatbázis frissítésekor
             // header("Location: activation_error1.php");
             // exit();
-            header("Location: activation_error.php");
+            header("Location: rejection_error.php");
             exit();
         }
     } else {
         // Érvénytelen vagy lejárt token
-        header("Location: activation_error.php");
+        header("Location: rejection_error.php");
         exit();
     }
 } else {
     // Ha nincs token az URL-ben
-    header("Location: activation_error.php");
+    header("Location: rejection_error.php");
     exit();
 }
 ?>

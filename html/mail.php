@@ -34,7 +34,13 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Here is the subject';
-    $mail->Body = 'This is the HTML message body <b>in bold!</b>';
+    $mail->Body = '
+        <p>This is the HTML message body <b>in bold!</b></p>
+        <p>
+            <a href="http://localhost/fridge_project/html/activate.php?token=your_token_here&action=accept">Elfogadás</a>
+            <a href="http://localhost/fridge_project/html/activate.php?token=your_token_here&action=reject">Elutasítás</a>
+        </p>
+    ';
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
@@ -42,3 +48,4 @@ try {
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
+?>

@@ -77,8 +77,6 @@ include "db_conn.php";
 
                     <label for="ingredientName">INGREDIENT NAME:</label>
                     <input type="text" id="ingredientName" name="ingredientName" required>
-                    <label for="ingredientQuantity">Quantity:</label>
-                    <input type="text" id="ingredientQuantity" name="ingredientQuantity" required>
                     <button type="submit" class="button submit" onclick="addIngredient()">Add</button>
                 </form>
         <h2 class="ing_title" >Search Ingredients</h2>
@@ -94,10 +92,10 @@ include "db_conn.php";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<div class='ingredient' id='{$row['name']}_div'>";
-                            echo "<input type='checkbox' id='{$row['name']}' name='{$row['name']}' value='{$row['name']}'onclick='moveChecked(this)'>";
-                            echo "<label for='{$row['name']}'>{$row['name']} - {$row['quantity']}</label>";
-                            echo "</div>";
+                            // echo "<div class='ingredient' id='{$row['name']}_div'>";
+                            // echo "<input type='checkbox' id='{$row['name']}' name='{$row['name']}' value='{$row['name']}'onclick='moveChecked(this)'>";
+                            // echo "<label for='{$row['name']}'>{$row['name']} - {$row['quantity']}</label>";
+                            // echo "</div>";
                         }
                     } else {
                         echo "No ingredients found.";
@@ -129,84 +127,6 @@ include "db_conn.php";
 
     </div>
 </div>
-<script>
-    // Array to store added ingredients
-let ingredients = [];
-
-// Function to display ingredients
-function displayIngredients() {
-        let ingredientsList = document.getElementById("ingredientsList");
-        ingredientsList.innerHTML = "";
-        ingredients.forEach((ingredient, index) => {
-            let div = document.createElement("div");
-            div.className = "ingredient";
-            div.innerHTML = `
-                <input type="checkbox" id="ingredient${index}" name="ingredient${index}" value="${ingredient.name}">
-                <label for="ingredient${index}">${ingredient.name} - ${ingredient.quantity}</label>
-            `;
-            ingredientsList.appendChild(div);
-        });
-    }
-
-// Function to search ingredients
-function searchIngredients() {
-    let searchInput = document.getElementById("searchInput").value.toLowerCase();
-    let searchResults = document.getElementById("searchResults");
-    searchResults.innerHTML = "";
-    let filteredIngredients = ingredients.filter(ingredient =>
-        ingredient.name.toLowerCase().includes(searchInput)
-    );
-    filteredIngredients.forEach(ingredient => {
-        let div = document.createElement("div");
-        div.innerHTML = `${ingredient.name} - ${ingredient.quantity}`;
-        searchResults.appendChild(div);
-    });
-}
-
-
-function moveChecked(checkbox) {
-    if (checkbox.checked) {
-        let selectedIngredients = document.getElementById('selectedIngredients');
-        let ingredientName = checkbox.value.split(' - ')[0];
-        let ingredientParagraph = document.createElement('p');
-        ingredientParagraph.textContent = ingredientName;
-        selectedIngredients.appendChild(ingredientParagraph);
-        checkbox.parentNode.style.display = 'none';
-
-        // Ha van kiválasztott összetevő, akkor töröljük az üzenetet
-        document.getElementById('noIngredientsMsg').style.display = 'none';
-    } else {
-        // Ha nincs kiválasztott összetevő, akkor jelenítjük meg az üzenetet
-        document.getElementById('noIngredientsMsg').style.display = 'block';
-        // Visszateszi az összetevőt az ingredientsList div-be
-        let ingredientsList = document.getElementById('ingredientsList');
-        let ingredientId = checkbox.id;
-        let ingredientDiv = document.getElementById(ingredientId + "_div");
-        if (ingredientDiv) {
-            ingredientsList.appendChild
-        }
-      }
-  }
-
-function clearAllIngredients() {
-    // Kiválasztjuk az összes kiválasztott összetevőt
-    let selectedIngredients = document.querySelectorAll('.selected-ingredient');
-
-    // Iterálunk az összetevőkön, és mindegyiket hozzáadjuk az ingredientsList-hez
-    selectedIngredients.forEach(function(ingredient) {
-        let ingredientName = ingredient.querySelector('p').textContent;
-        let checkbox = document.querySelector(`input[value="${ingredientName}"]`);
-        checkbox.checked = false; // Kiválasztott állapot törlése
-        ingredient.remove(); // Eltávolítjuk az összetevőt a kiválasztottak közül
-    });
-
-    // Megjelenítjük az üzenetet, ha nincs kiválasztott összetevő
-    document.getElementById('noIngredientsMsg').style.display = 'block';
-}
-
-
-
-
-</script>
+<script src="../script2.js"></script>
 </body>
 </html>
