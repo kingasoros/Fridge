@@ -332,6 +332,19 @@ margin-right:0;
 left: -20px;
 }
 
+.fridge_header{
+  border: 4px solid #EA854C;
+    border-radius: 6%;
+}
+
+.remove{
+  align-items: right;
+}
+
+.ing_title{
+  margin-top:5%;
+}
+
 @media (min-width: 768px) {
 .col-md-6 {
   flex: 0 0 auto;

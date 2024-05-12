@@ -10,6 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../style.css">
+        
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -31,7 +32,7 @@
                   <li><a class="dropdown-item" href="sign_in.php">SIGN IN</a></li>
                   <li><a class="dropdown-item" href="sign_up.php">REGISTRATION</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="adm.html">ADMINISTRATION</a></li>
+                  <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
                 </ul>
               </li>
             </ul>
@@ -46,7 +47,7 @@
             <strong>Kinga</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="fridge.html">Fridge</a></li>
+            <li><a class="dropdown-item" href="fridge.php">Fridge</a></li>
             <li><a class="dropdown-item" href="profile.php">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="sign_out.php">Sign out</a></li>
@@ -58,70 +59,99 @@
       <div class="container">
         <main class="cont_2">
           <h4 class="mb-3">ADDING RECIPES</h4>
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" action="adm_check.php" novalidate method="post">
+
+              <?php if(isset($_GET['error'])) {?>
+                <p class="error"><?php echo $_GET['error']; ?></p>
+               <?php } ?>    
+    
+               <?php if(isset($_GET['success'])) {?>
+                   <p class="success"><?php echo $_GET['success']; ?></p>
+               <?php } ?>
               <div class="row g-3">
                 <div class="col-sm-12">
                   <label for="foodName" class="form-label">Food name</label>
-                  <input type="text" class="form-control" id="foodName" placeholder="Soup" value="" required>
-                    <div class="invalid-feedback">
-                      Valid first name is required.
-                    </div>
+                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" required>
                 </div>
 
                 <div class="col-sm-12">
                   <label for="yourName" class="form-label">Your name</label>
-                  <input type="text" class="form-control" id="yourName" placeholder="Emese" value="" required>
-                    <div class="invalid-feedback">
-                      Valid last name is required.
-                    </div>
+                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required>
                 </div>
           
                 <div class="col-sm-12">
                   <label for="time" class="form-label">Cook time:</label>
-                  <input type="text" class="form-control" id="time" placeholder="30 Minutes" value="" required>
+                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" required>
                 </div>
 
                 <div class="col-sm-12">
-                  <label for="price" class="form-label">Price:</label>
-                  <input type="text" class="form-control" id="price" placeholder="Relative price" value="" required>
+                  <label for="price" class="form-label">Relative price (in dinar):</label>
+                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" required>
                 </div>
 
                 <div class="col-sm-12">
                   <label for="serv" class="form-label">Serves:</label>
-                  <input type="text" class="form-control" id="serv" placeholder="10 Servings" value="" required>
+                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" required>
                 </div>
 
                 <div class="input-group mb-3">
-                  <label for="inputGroupFile02" class="form-label col-sm-12">Upload a picture of the food:</label>
-                  <input type="file" class="form-control" id="inputGroupFile02">
+                  <label for="food_photo" class="form-label col-sm-12">Upload a picture of the food:</label>
+                  <input type="file" name="food_photo" class="form-control" id="food_photo">
                 </div>
 
                 <div class="input-group mb-3">
-                  <label for="ingredients" class="form-label col-sm-12">Ingredients:</label>
-                  <button class="btn btn-outline-secondary butt_2" type="button" id="button-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <label for="ingredients" class="form-label col-sm-12">Ingredients:</label>
+                <button class="btn btn-outline-secondary butt_2" type="button" id="button-addon1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                  </svg></button>
-                  <input type="text" class="form-control" id="ingredients" placeholder="Add an ingredients." aria-label="Example text with button addon" aria-describedby="button-addon1">
+                  </svg>
+                </button>
+                <input type="text" name="ingredients_rec" class="form-control" id="ingredients" placeholder="Add an ingredient." aria-label="Example text with button addon" aria-describedby="button-addon1">
                 </div>
-          
+                <div id="ingredientsList"></div>
+
+
+                <script>
+                  // Tömb a beírt összetevők tárolásához
+                  let ingredientsArray = [];
+
+                  // Gomb kattintás eseménykezelő
+                  document.getElementById('button-addon1').addEventListener('click', function() {
+                  // Beírt érték lekérése
+                  let ingredient = document.getElementById('ingredients').value;
+
+                  // Hozzáadás a tömbhöz
+                  ingredientsArray.push(ingredient);
+
+                  // Kiválasztjuk az összetevők listáját tartalmazó konténert
+                  let ingredientsListContainer = document.getElementById('ingredientsList');
+
+                  // Új elem létrehozása az összetevőnek
+                  let ingredientItem = document.createElement('div');
+                  ingredientItem.textContent = ingredient;
+
+                  // Hozzáadjuk az új elemet az összetevők listájához
+                  ingredientsListContainer.appendChild(ingredientItem);
+});
+                </script>
+
+                <div id="ingredientsList"></div>
+                
                 <div class="form-floating">
-                  <textarea class="form-control" placeholder="About the recipes" id="floatingTextarea2" style="height: 100px"></textarea>
+                  <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
                   <label for="floatingTextarea2">Preparation</label>
                 </div>
-
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Registration</button>
+                <input type="hidden" name="ingredientsArray" id="ingredientsArray">
+                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button>
               </div>
             </form>
             <hr>
             <h4 class="mb-3">DELETING RECIPES</h4>
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" action="del_rec.php" novalidate method="post">
               <div class="row g-3">
                 <div class="col-sm-12">
-                  <label for="lastName" class="form-label">Food Name<span class="del_com">(The exact name of the food to be returned must be entered.)</span></label>
-                  <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                      Valid last name is required.
-                    </div>
+                  <label for="food_name" class="form-label">Food Name<span class="del_com">(The exact name of the food to be returned must be entered.)</span></label>
+                  <input type="text" name="food_name" class="form-control" id="food_name" placeholder="" required>
                 </div>
                 <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Delete</button>
               </div>

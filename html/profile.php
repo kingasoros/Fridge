@@ -18,7 +18,9 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../script.js"></script>
+        
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,7 +42,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                   <li><a class="dropdown-item" href="sign_in.php">SIGN IN</a></li>
                   <li><a class="dropdown-item" href="sign_up.php">REGISTRATION</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="adm.html">ADMINISTRATION</a></li>
+                  <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
                 </ul>
               </li>
             </ul>
@@ -55,7 +57,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
             <strong>Kinga</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="fridge.html">Fridge</a></li>
+            <li><a class="dropdown-item" href="fridge.php">Fridge</a></li>
             <li><a class="dropdown-item" href="profile.php">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="sign_out.php">Sign out</a></li>
@@ -65,54 +67,53 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
       </div>
     </nav>
     
-    <div class="container">
-        <div class="row profile_things">
-                <div class="col-md-6">
-                    <img class="profile_img" src="../images/me.jpg">
-                </div>
-            <div class="col-md-6 datas">
-                      <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                              <h6 class="my-0">User name</h6>
-                            </div>
-                            <span class="text-muted"><?php echo $_SESSION['user_name'];?></span>
-                          </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                          <div>
-                            <h6 class="my-0">First name</h6>
-                          </div>
-                          <span class="text-muted"><?php echo $_SESSION['first_name'];?></span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                          <div>
-                            <h6 class="my-0">Last Name</h6>
-                          </div>
-                          <span class="text-muted"><?php echo $_SESSION['last_name'];?></span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                          <div>
-                            <h6 class="my-0">Phone number</h6>
-                          </div>
-                          <span class="text-muted"><?php echo $_SESSION['phone_numb'];?></span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                              <h6 class="my-0">Email</h6>
-                            </div>
-                            <span class="text-muted"><?php echo $_SESSION['email'];?></span>
-                          </li>
-                          
-                          <li class="list-group-item ">
-                            <div class="d-grid gap-2">
-                                <a class="btn btn-primary btn_edit" href="logout.php" type="button">LOGOUT</a>
-                              </div>
-                          </li>
-                      </ul>
-              
-                    </div>
-            </div>
+
+<div class="container">
+    <div class="row profile_things">
+        <div class="col-md-6">
+            <img class="profile_img" src="../images/me.jpg">
         </div>
+        <div class="col-md-6 datas">
+            <ul class="list-group mb-3 item-list">
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">User name</h6>
+                    </div>
+                    <span class="text-muted" contenteditable="true"><?php echo $_SESSION['user_name'];?></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">First name</h6>
+                    </div>
+                    <span class="text-muted" contenteditable="true"><?php echo $_SESSION['first_name'];?></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Last Name</h6>
+                    </div>
+                    <span class="text-muted" contenteditable="true"><?php echo $_SESSION['last_name'];?></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Phone number</h6>
+                    </div>
+                    <span class="text-muted" contenteditable="true"><?php echo $_SESSION['phone_numb'];?></span>
+                </li>
+
+                <li class="list-group-item ">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary btn_edit" href="logout.php" type="button">LOGOUT</a>
+                        
+                    </div>
+                </li>
+            </ul>
+            <button class="btn btn-primary btn_edit" onclick="saveChanges()" type="button">Save Changes</button>
+            <!-- <button id="frissitoGomb" class="save">Edit</button> -->
+        </div>
+    </div>
+</div>
+
+
       <h1 class="liked_header">Liked recipes</h1>
       <div class="cards">
         <div class="wrapper"> 
