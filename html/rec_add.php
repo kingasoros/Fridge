@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ADMINISTRATION</title>
+        <title>FRIDGE</title>
         <meta charset="UTF-8">
         <meta name="description" content="This website was created for a school.">
         <meta name="author" content="Kinga">
@@ -10,7 +10,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../style.css">
-        
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -55,12 +54,14 @@
           </ul>
         </div>
       </div>
-    </div>
-      </nav>
-      <div class="container">
+      </div>
+    </nav>
+
+
+    <div class="container">
         <main class="cont_2">
           <h4 class="mb-3">ADDING RECIPES</h4>
-            <form class="needs-validation" action="adm_check.php" novalidate method="post">
+            <form class="needs-validation" action="rec_add_check.php" novalidate method="post">
 
               <?php if(isset($_GET['error'])) {?>
                 <p class="error"><?php echo $_GET['error']; ?></p>
@@ -102,42 +103,19 @@
 
                 <div class="input-group mb-3">
                 <label for="ingredients" class="form-label col-sm-12">Ingredients:</label>
+                
                 <button class="btn btn-outline-secondary butt_2" type="button" id="button-addon1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                  </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                    </svg>
                 </button>
-                <input type="text" name="ingredients_rec" class="form-control" id="ingredients" placeholder="Add an ingredient." aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <input type="text" name="ingredients_rec[]" class="form-control" id="ingredients" placeholder="Add an ingredient." aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <!-- Hozzáadott mező az összetevő mennyiségéhez -->
+                <input type="text" name="ingredient_quantity[]" class="form-control" id="ingredient_quantity" placeholder="Quantity" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <input type="hidden" name="ingredientsArray" id="ingredientsArray">
                 </div>
                 <div id="ingredientsList"></div>
 
-
-                <script>
-                  // Tömb a beírt összetevők tárolásához
-                  let ingredientsArray = [];
-
-                  // Gomb kattintás eseménykezelő
-                  document.getElementById('button-addon1').addEventListener('click', function() {
-                  // Beírt érték lekérése
-                  let ingredient = document.getElementById('ingredients').value;
-
-                  // Hozzáadás a tömbhöz
-                  ingredientsArray.push(ingredient);
-
-                  // Kiválasztjuk az összetevők listáját tartalmazó konténert
-                  let ingredientsListContainer = document.getElementById('ingredientsList');
-
-                  // Új elem létrehozása az összetevőnek
-                  let ingredientItem = document.createElement('div');
-                  ingredientItem.textContent = ingredient;
-
-                  // Hozzáadjuk az új elemet az összetevők listájához
-                  ingredientsListContainer.appendChild(ingredientItem);
-});
-                </script>
-
-                <div id="ingredientsList"></div>
-                
                 <div class="form-floating">
                   <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
                   <label for="floatingTextarea2">Preparation</label>
@@ -146,17 +124,52 @@
                 <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button>
               </div>
             </form>
-            <hr>
-            <h4 class="mb-3">DELETING RECIPES</h4>
-            <form class="needs-validation" action="del_rec.php" novalidate method="post">
-              <div class="row g-3">
-                <div class="col-sm-12">
-                  <label for="food_name" class="form-label">Food Name<span class="del_com">(The exact name of the food to be returned must be entered.)</span></label>
-                  <input type="text" name="food_name" class="form-control" id="food_name" placeholder="" required>
-                </div>
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Delete</button>
-              </div>
-            </form>  
-        </main>
-    </body>
+
+            <script>
+            // Az ingredientsArray tömb inicializálása
+            let ingredientsArray = [];
+
+            // Gomb kattintás eseménykezelő
+            document.getElementById('button-addon1').addEventListener('click', function() {
+                // Beírt értékek lekérése
+                let ingredient = document.getElementById('ingredients').value;
+                let quantity = document.getElementById('ingredient_quantity').value;
+
+                // Objektum létrehozása az aktuális összetevőhöz és mennyiségéhez
+                let ingredientObj = {
+                    ingredient: ingredient,
+                    quantity: quantity
+                };
+
+                // Hozzáadás az ingredientsArray tömbhöz
+                ingredientsArray.push(ingredientObj);
+
+                // Az összetevők listájának megjelenítése
+                displayIngredients();
+            });
+
+            // A hozzáadott összetevők listájának megjelenítése
+            function displayIngredients() {
+                let ingredientsListContainer = document.getElementById('ingredientsList');
+                // Töröld az előző tartalmat, ha van
+                ingredientsListContainer.innerHTML = '';
+
+                // Végigiterálunk az ingredientsArray tömbön
+                for (let i = 0; i < ingredientsArray.length; i++) {
+                    let ingredient = ingredientsArray[i].ingredient;
+                    let quantity = ingredientsArray[i].quantity;                  
+
+                    // Létrehozzuk az új elemet az összetevőhöz és mennyiségéhez
+                    let ingredientItem = document.createElement('div');
+                    ingredientItem.textContent = quantity + ' ' + ingredient;
+
+                    // Hozzáadjuk az új elemet az összetevők listájához
+                    ingredientsListContainer.appendChild(ingredientItem);
+                }
+                document.getElementById('ingredientsArray').value = JSON.stringify(ingredientsArray);
+            }
+
+          </script>
+
+</body>
 </html>
