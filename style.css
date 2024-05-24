@@ -344,7 +344,28 @@ body{
   .ing_title{
     margin-top:5%;
   }
+
+  .add_btn{
+    width:37px;
+    height:37px;
+    margin:2% 1% 0% 1%;
+    background-color: #4663c4;
+  }
+
+  .remove_btn{
+    width:37px;
+    height:37px;
+    margin:2% 1% 0% 3%;
+  }
   
+  .ing_adding{
+    margin-left:13%;
+  }
+ 
+/* .ing_in{
+  margin:auto;
+} */
+
   @media (min-width: 768px) {
   .col-md-6 {
     flex: 0 0 auto;

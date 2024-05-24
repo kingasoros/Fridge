@@ -1,3 +1,9 @@
+<?php
+  
+    require "db_conn.php";
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -101,75 +107,48 @@
                   <input type="file" name="food_photo" class="form-control" id="food_photo">
                 </div>
 
-                <div class="input-group mb-3">
-                <label for="ingredients" class="form-label col-sm-12">Ingredients:</label>
-                
-                <button class="btn btn-outline-secondary butt_2" type="button" id="button-addon1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                    </svg>
-                </button>
-                <input type="text" name="ingredients_rec[]" class="form-control" id="ingredients" placeholder="Add an ingredient." aria-label="Example text with button addon" aria-describedby="button-addon1">
-                <!-- Hozzáadott mező az összetevő mennyiségéhez -->
-                <input type="text" name="ingredient_quantity[]" class="form-control" id="ingredient_quantity" placeholder="Quantity" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                <input type="hidden" name="ingredientsArray" id="ingredientsArray">
-                </div>
-                <div id="ingredientsList"></div>
-
+                <div class="input-group" id="ingredients">
+                <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button>
+                  <div class="form-group ing_in">
+                    <label for="ingredientName" class="form-label">Ingredient</label>
+                    <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control" required="required"/>
+                  </div>
+                  <div class="form-group ms-2 ing_in">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control" required="required"/>
+                  </div>
+                  
+               </div>
+        
+               </div>
+               <br><br>
                 <div class="form-floating">
                   <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
                   <label for="floatingTextarea2">Preparation</label>
                 </div>
-                <input type="hidden" name="ingredientsArray" id="ingredientsArray">
+                <br><br>
                 <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button>
-              </div>
+                </div>
             </form>
+            
+
 
             <script>
-            // Az ingredientsArray tömb inicializálása
-            let ingredientsArray = [];
-
-            // Gomb kattintás eseménykezelő
-            document.getElementById('button-addon1').addEventListener('click', function() {
-                // Beírt értékek lekérése
-                let ingredient = document.getElementById('ingredients').value;
-                let quantity = document.getElementById('ingredient_quantity').value;
-
-                // Objektum létrehozása az aktuális összetevőhöz és mennyiségéhez
-                let ingredientObj = {
-                    ingredient: ingredient,
-                    quantity: quantity
-                };
-
-                // Hozzáadás az ingredientsArray tömbhöz
-                ingredientsArray.push(ingredientObj);
-
-                // Az összetevők listájának megjelenítése
-                displayIngredients();
-            });
-
-            // A hozzáadott összetevők listájának megjelenítése
-            function displayIngredients() {
-                let ingredientsListContainer = document.getElementById('ingredientsList');
-                // Töröld az előző tartalmat, ha van
-                ingredientsListContainer.innerHTML = '';
-
-                // Végigiterálunk az ingredientsArray tömbön
-                for (let i = 0; i < ingredientsArray.length; i++) {
-                    let ingredient = ingredientsArray[i].ingredient;
-                    let quantity = ingredientsArray[i].quantity;                  
-
-                    // Létrehozzuk az új elemet az összetevőhöz és mennyiségéhez
-                    let ingredientItem = document.createElement('div');
-                    ingredientItem.textContent = quantity + ' ' + ingredient;
-
-                    // Hozzáadjuk az új elemet az összetevők listájához
-                    ingredientsListContainer.appendChild(ingredientItem);
+                function addEntry() {
+                  var entry = "<div class='input-group ing_adding'><div class='form-group ing_in'><label for='ingredientName' class='form-label'>Ingredient</label><input type='text' id='ingredientName' name='ingredients[]' placeholder='Enter ingredient here...' class='form-control' required='required'/></div><div class='form-group ms-2 ing_in'><label for='quantity' class='form-label'>Quantity</label><input type='text' id='quantity' name='quantities[]' placeholder='Enter quantity here...' class='form-control' required='required'/></div><button type='button' class='btn btn-danger btn-sm remove_btn' onclick='removeEntry(this);'>-</button></div>";
+                  var element = document.createElement("div");
+                  element.innerHTML = entry;
+                  document.getElementById('ingredients').appendChild(element);
                 }
-                document.getElementById('ingredientsArray').value = JSON.stringify(ingredientsArray);
-            }
 
-          </script>
+                function removeEntry(btn) {
+                  btn.parentNode.parentNode.removeChild(btn.parentNode);
+                }
+              </script>
+
+
+          
+
 
 </body>
 </html>
