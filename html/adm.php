@@ -43,10 +43,13 @@ session_start();
                 </ul>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success butt_1" type="submit">Search</button>
+            <form class="d-flex" action="search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
             </form>
+
+            <script src=../script2.js></script>
+            
           <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
@@ -120,25 +123,18 @@ session_start();
 
 
                 <script>
-                  // Tömb a beírt összetevők tárolásához
                   let ingredientsArray = [];
 
-                  // Gomb kattintás eseménykezelő
                   document.getElementById('button-addon1').addEventListener('click', function() {
-                  // Beírt érték lekérése
                   let ingredient = document.getElementById('ingredients').value;
 
-                  // Hozzáadás a tömbhöz
                   ingredientsArray.push(ingredient);
 
-                  // Kiválasztjuk az összetevők listáját tartalmazó konténert
                   let ingredientsListContainer = document.getElementById('ingredientsList');
 
-                  // Új elem létrehozása az összetevőnek
                   let ingredientItem = document.createElement('div');
                   ingredientItem.textContent = ingredient;
 
-                  // Hozzáadjuk az új elemet az összetevők listájához
                   ingredientsListContainer.appendChild(ingredientItem);
 });
                 </script>

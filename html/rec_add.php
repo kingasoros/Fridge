@@ -45,10 +45,13 @@
                 </ul>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success butt_1" type="submit">Search</button>
+            <form class="d-flex" action="search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
             </form>
+
+            <script src=../script2.js></script>
+            
           <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
@@ -70,56 +73,56 @@
 
     <div class="container">
         <main class="cont_2">
-          <h4 class="mb-3">ADDING RECIPES</h4>
-            <form class="needs-validation" action="rec_add_check.php" enctype="multipart/form-data" novalidate method="post">
+          <h4 class="mb-3">ADDING RECIPES</h4> <!-- Title for adding recipes section -->
+            <form class="needs-validation" action="rec_add_check.php" enctype="multipart/form-data" novalidate method="post"> <!-- Form for adding recipes -->
 
               <?php if(isset($_GET['error'])) {?>
-                <p class="error"><?php echo $_GET['error']; ?></p>
+                <p class="error"><?php echo $_GET['error']; ?></p> <!-- Display error messages if any -->
                <?php } ?>    
     
                <?php if(isset($_GET['success'])) {?>
-                   <p class="success"><?php echo $_GET['success']; ?></p>
+                   <p class="success"><?php echo $_GET['success']; ?></p> <!-- Display success messages if any -->
                <?php } ?>
               <div class="row g-3">
                 <div class="col-sm-12">
                   <label for="foodName" class="form-label">Food name</label>
-                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" required>
+                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" required> <!-- Input field for food name -->
                 </div>
 
                 <div class="col-sm-12">
                   <label for="yourName" class="form-label">Your name</label>
-                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required>
+                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required> <!-- Input field for user name -->
                 </div>
           
                 <div class="col-sm-12">
                   <label for="time" class="form-label">Cook time:</label>
-                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" required>
+                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" required> <!-- Input field for cook time -->
                 </div>
 
                 <div class="col-sm-12">
                   <label for="price" class="form-label">Relative price (in dinar):</label>
-                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" required>
+                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" required> <!-- Input field for price -->
                 </div>
 
                 <div class="col-sm-12">
                   <label for="serv" class="form-label">Serves:</label>
-                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" required>
+                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" required> <!-- Input field for servings -->
                 </div>
 
                 <div class="input-group mb-3">
                   <label for="food_photo" class="form-label col-sm-12">Upload a picture of the food:</label>
-                  <input type="file" name="food_photo" class="form-control" id="food_photo">
+                  <input type="file" name="food_photo" class="form-control" id="food_photo"> <!-- Input field for uploading food photo -->
                 </div>
 
                 <div class="input-group" id="ingredients">
-                <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button>
+                <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button> <!-- Button to add ingredient -->
                   <div class="form-group ing_in">
                     <label for="ingredientName" class="form-label">Ingredient</label>
-                    <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control" required="required"/>
+                    <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control" required="required"/> <!-- Input field for ingredient -->
                   </div>
                   <div class="form-group ms-2 ing_in">
                     <label for="quantity" class="form-label">Quantity</label>
-                    <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control" required="required"/>
+                    <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control" required="required"/> <!-- Input field for quantity -->
                   </div>
                   
                </div>
@@ -128,27 +131,17 @@
                <br><br>
                 <div class="form-floating">
                   <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
-                  <label for="floatingTextarea2">Preparation</label>
+                  <label for="floatingTextarea2">Preparation</label> <!-- Text area for preparation -->
                 </div>
                 <br><br>
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button>
+                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button> <!-- Upload button -->
                 </div>
             </form>
+
             
 
 
-            <script>
-                function addEntry() {
-                  var entry = "<div class='input-group in_ingrediens'><div class='form-group ing_in'><label for='ingredientName' class='form-label'>Ingredient</label><input type='text' id='ingredientName' name='ingredients[]' placeholder='Enter ingredient here...' class='form-control' required='required'/></div><div class='form-group ms-2 ing_in'><label for='quantity' class='form-label'>Quantity</label><input type='text' id='quantity' name='quantities[]' placeholder='Enter quantity here...' class='form-control' required='required'/></div><button type='button' class='btn btn-danger btn-sm remove_btn' onclick='removeEntry(this);'>-</button></div>";
-                  var element = document.createElement("div");
-                  element.innerHTML = entry;
-                  document.getElementById('ingredients').appendChild(element);
-                }
-
-                function removeEntry(btn) {
-                  btn.parentNode.parentNode.removeChild(btn.parentNode);
-                }
-              </script>
+            <script src="../script2.js"></script>
 
 
           

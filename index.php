@@ -37,14 +37,17 @@ session_start();
                   <li><a class="dropdown-item" href="html/sign_in.php">SIGN IN</a></li>
                   <li><a class="dropdown-item" href="html/sign_up.php">REGISTRATION</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="html/adm.html">ADMINISTRATION</a></li>
+                  <li><a class="dropdown-item" href="html/adm.php">ADMINISTRATION</a></li>
                 </ul>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success butt_1" type="submit">Search</button>
+            <form class="d-flex" action="html/search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
             </form>
+
+            <script src=script2.js></script>
+
           <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,7 +55,7 @@ session_start();
             <strong><?php if(isset($_SESSION['user_name'])) { echo $_SESSION['user_name']; }?></strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="html/fridge.html">Fridge</a></li>
+            <li><a class="dropdown-item" href="html/fridge.php">Fridge</a></li>
             <li><a class="dropdown-item" href="html/rec_add.php">Adding recipes</a></li>
             <li><a class="dropdown-item" href="html/profile.php">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
@@ -62,63 +65,69 @@ session_start();
       </div>
       </div>
     </nav>
-          <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light cont">
-            <div class="col-md-5 p-lg-5 mx-auto my-5 text-center">
-              <h1 class="display-4 fw-normal">RECIPES</h1>
-              <p class="lead fw-normal">Recipes based on what you have in your fridge.</p>
-              <a class="btn btn-outline-secondary" href="html/rec.html">Are you interested?</a>
-            </div>
-            <div class="product-device shadow-sm d-none d-md-block"></div>
-            <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-          </div>
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light cont">
+    <!-- Introduction Section -->
+    <div class="col-md-5 p-lg-5 mx-auto my-5 text-center">
+        <h1 class="display-4 fw-normal">RECIPES</h1>
+        <p class="lead fw-normal">Recipes based on what you have in your fridge.</p>
+        <a class="btn btn-outline-secondary" href="html/rec.html">Are you interested?</a>
+    </div>
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+</div>
 
-          <div class="container marketing">
-            <div class="row">
-              <div class="col-lg-4"></div>
-              <div class="col-lg-4 media">
-                <p class="m_img"></p>
-                <h2 class="fw-normal">Kinga</h2>
-                <p>It's a daily question for me: What should I cook for lunch today? This website helped me a lot. I hope you will find it useful too!</p>
-                <p><a class="btn btn-secondary" href="html/sign_up.php">Let's start! &raquo;</a></p>
-              </div>
-              <div class="col-lg-4"></div>
-            </div>
-          </div>
+<!-- Testimonial Section -->
+<div class="container marketing">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 media">
+            <p class="m_img"></p>
+            <h2 class="fw-normal">Kinga</h2>
+            <p>It's a daily question for me: What should I cook for lunch today? This website helped me a lot. I hope you will find it useful too!</p>
+            <p><a class="btn btn-secondary" href="html/sign_up.php">Let's start! &raquo;</a></p>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
 
-          <hr>
+<hr>
 
-          <div class="row featurette">
-            <div class="col-md-6">
-              <h2 class="featurette-heading fw-normal lh-1">Would you like to quickly find a recipe based on what's in your fridge?</h2>
-              <p class="lead">You are at the right place!</p>
-            </div>
-            <div class="col-md-5">
-              <img class="start_img" src="images/fridge.jpg">
-            </div>
-          </div>
-      
-          <hr>
-      
-          <div class="row featurette">
-            <div class="col-md-6 col-sm-12 order-md-2">
-              <h2 class="featurette-heading fw-normal lh-1">Don't have time to cook all the time, but do you like to save recipes for later?</h2>
-              <p class="lead">This is also possible.</p>
-            </div>
-            <div class="col-md-6 col-sm-12 order-md-1">
-              <img class="start_img" src="images/cook.jpg">
-            </div>
-          </div>
+<!-- Featurette Section 1 -->
+<div class="row featurette">
+    <div class="col-md-6">
+        <h2 class="featurette-heading fw-normal lh-1">Would you like to quickly find a recipe based on what's in your fridge?</h2>
+        <p class="lead">You are at the right place!</p>
+    </div>
+    <div class="col-md-5">
+        <img class="start_img" src="images/fridge.jpg">
+    </div>
+</div>
 
-          <hr>
+<hr>
 
-          <div class="row featurette">
-            <div class="col-md-6">
-              <h2 class="featurette-heading fw-normal lh-1">Are you full of ideas?</h2>
-              <p class="lead">Register and share your recipes with us!</p>
-            </div>
-            <div class="col-md-5">
-              <img class="start_img" src="images/recipes.jpg">
-            </div>
-          </div>
+<!-- Featurette Section 2 -->
+<div class="row featurette">
+    <div class="col-md-6 col-sm-12 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Don't have time to cook all the time, but do you like to save recipes for later?</h2>
+        <p class="lead">This is also possible.</p>
+    </div>
+    <div class="col-md-6 col-sm-12 order-md-1">
+        <img class="start_img" src="images/cook.jpg">
+    </div>
+</div>
+
+<hr>
+
+<!-- Featurette Section 3 -->
+<div class="row featurette">
+    <div class="col-md-6">
+        <h2 class="featurette-heading fw-normal lh-1">Are you full of ideas?</h2>
+        <p class="lead">Register and share your recipes with us!</p>
+    </div>
+    <div class="col-md-5">
+        <img class="start_img" src="images/recipes.jpg">
+    </div>
+</div>
+
     </body>
 </html>

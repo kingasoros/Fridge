@@ -1,40 +1,38 @@
 <?php
 
-// Db_conn.php hozzáadása
-require 'db_conn.php';
+require 'db_conn.php'; 
 
-if (isset($_GET['token'])) {
-    $token = $_GET['token'];
+if (isset($_GET['token'])) { // Checks for 'token' parameter.
 
-    // Ellenőrizd az adatbázisban, hogy létezik-e a token és még érvényes-e
-    $sql = "SELECT * FROM receipt WHERE activation_token = '$token'";
+    $token = $_GET['token']; // Gets token from URL.
 
-    $result = mysqli_query($conn, $sql);
+    $sql = "SELECT * FROM receipt WHERE activation_token = '$token'"; // SQL to find receipt by token.
 
-    if (mysqli_num_rows($result) > 0) {
-        // Token érvényes, frissítsd a felhasználó státuszát
-        $row = mysqli_fetch_assoc($result);
-        $receiptId = $row['receipt_id'];
-        $sqlUpdate = "UPDATE receipt SET activated = 1 WHERE receipt_id = $receiptId ";
-        if (mysqli_query($conn, $sqlUpdate)) {
-            // Sikeres aktiváció, továbbítsd a felhasználót egy "sikeres aktiváció" oldalra
-            header("Location: ../index.php");
+    $result = mysqli_query($conn, $sql); // Executes query.
+
+    if (mysqli_num_rows($result) > 0) { // Checks if receipt found.
+
+        $row = mysqli_fetch_assoc($result); // Fetches row.
+        $receiptId = $row['receipt_id']; // Gets receipt ID.
+        $sqlUpdate = "UPDATE receipt SET activated = 1 WHERE receipt_id = $receiptId "; // Updates activation status.
+
+        if (mysqli_query($conn, $sqlUpdate)) { // Executes update query.
+
+            header("Location: ../index.php"); // Redirects on success.
             exit();
         } else {
-            // Hiba az adatbázis frissítésekor
-            // header("Location: activation_error1.php");
-            // exit();
-            header("Location: activation_error.php");
+
+            header("Location: activation_error.php"); // Redirects to error page on failure.
             exit();
         }
     } else {
-        // Érvénytelen vagy lejárt token
-        header("Location: activation_error.php");
+
+        header("Location: activation_error.php"); // Redirects to error page if no receipt found.
         exit();
     }
 } else {
-    // Ha nincs token az URL-ben
-    header("Location: activation_error.php");
+
+    header("Location: activation_error.php"); // Redirects to error page if 'token' parameter is missing.
     exit();
 }
 ?>

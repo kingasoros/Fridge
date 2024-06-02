@@ -65,7 +65,7 @@ if ($result->num_rows > 0) {
                 <div id="livesearch"></div>
             </form>
 
-
+            <script src=../script2.js></script>
 
           <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
@@ -86,6 +86,7 @@ if ($result->num_rows > 0) {
     </nav>
 
     <main>
+        <!-- Main content section for displaying recipe cards -->
         <div class="album py-5 bg-body-tertiary">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -97,25 +98,33 @@ if ($result->num_rows > 0) {
                     ?>
                     <div class="col">
                         <div class="card shadow-sm">
-                         <!-- <?php echo '<img class="card_imgs" alt="Recipe Image" src="data:image/jpg;base64,'.base64_encode($img).'" />';?> -->
+                            <!-- Recipe image -->
+                            <!-- <?php echo '<img class="card_imgs" alt="Recipe Image" src="data:image/jpg;base64,'.base64_encode($img).'" />';?>  -->
                             <img class="card_imgs" src="../images/spinach_pasta.webp" alt="Recipe Image">
+                            <!-- Recipe card body -->
                             <div class="card-body">
+                                <!-- Recipe name -->
                                 <p class="card-text"><?php echo htmlspecialchars($food_name); ?></p>
+                                <!-- Buttons for viewing, editing, and deleting recipes -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
+                                        <!-- View button -->
                                         <form method="get" action="rec_food.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
                                         </form>
+                                        <!-- Edit button -->
                                         <form method="get" action="receipt_edit.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
                                         </form>
+                                        <!-- Delete button -->
                                         <form method="post" action="delete_food.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
                                         </form>
                                     </div>
+                                    <!-- Cooking time -->
                                     <small class="text-body-secondary"><?php echo htmlspecialchars($time); ?> mins</small>
                                 </div>
                             </div>
@@ -127,33 +136,19 @@ if ($result->num_rows > 0) {
         </div>
     </main>
 
+    <!-- Footer section -->
     <footer class="text-body-secondary py-5">
         <div class="container">
             <p class="float-end mb-1">
+                <!-- Link to go back to top -->
                 <a href="#">Back to top</a>
             </p>
         </div>
     </footer>
+
     <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
    </script>
-   <script>
-        function showResult(str) {
-            if (str.length==0) {
-                document.getElementById("livesearch").innerHTML="";
-                document.getElementById("livesearch").style.border="0px";
-                return;
-            }
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (this.readyState==4 && this.status==200) {
-                document.getElementById("livesearch").innerHTML=this.responseText;
-                document.getElementById("livesearch").style.border="1px solid #A5ACB2";
-                }
-            }
-            xmlhttp.open("GET","search.php?q="+str,true);
-            xmlhttp.send();
-        }
-</script>
+   <script src=../script2.js></script>
 </body>
 </html>
 

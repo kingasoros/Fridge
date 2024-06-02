@@ -45,10 +45,13 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success butt_1" type="submit">Search</button>
-                </form>
+                <form class="d-flex" action="search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
+            </form>
+
+            <script src=../script2.js></script>
+            
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -68,130 +71,99 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
     </nav>
     
     <div class="container">
-        <div class="row profile_things">
-            <div class="col-md-6">
-                <img class="profile_img" src="../images/me.jpg">
-            </div>
-            <div class="col-md-6 datas">
-                <ul class="list-group mb-3 item-list">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">User name</h6>
-                        </div>
-                        <span class="text-muted" contenteditable="true" id="u_name"><?php echo $_SESSION['user_name'];?></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">First name</h6>
-                        </div>
-                        <span class="text-muted" contenteditable="true" id="f_name"><?php echo $_SESSION['first_name'];?></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Last Name</h6>
-                        </div>
-                        <span class="text-muted" contenteditable="true" id="l_name"><?php echo $_SESSION['last_name'];?></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Phone number</h6>
-                        </div>
-                        <span class="text-muted" contenteditable="true" id="phone"><?php echo $_SESSION['phone_numb'];?></span>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary btn_edit" id="submit" type="submit">Edit</button>
-                            <a class="btn btn-primary btn_edit" href="logout.php" type="button">LOGOUT</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+    <!-- Container for user profile information -->
+    <div class="row profile_things">
+        <!-- Column for profile image -->
+        <div class="col-md-6">
+            <img class="profile_img" src="../images/me.jpg">
+        </div>
+        <!-- Column for profile data -->
+        <div class="col-md-6 datas">
+            <!-- List group for user data -->
+            <ul class="list-group mb-3 item-list">
+                <!-- User name -->
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">User name</h6>
+                    </div>
+                    <!-- Display user name -->
+                    <span class="text-muted" contenteditable="true" id="u_name"><?php echo $_SESSION['user_name'];?></span>
+                </li>
+                <!-- First name -->
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">First name</h6>
+                    </div>
+                    <!-- Display first name -->
+                    <span class="text-muted" contenteditable="true" id="f_name"><?php echo $_SESSION['first_name'];?></span>
+                </li>
+                <!-- Last name -->
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Last Name</h6>
+                    </div>
+                    <!-- Display last name -->
+                    <span class="text-muted" contenteditable="true" id="l_name"><?php echo $_SESSION['last_name'];?></span>
+                </li>
+                <!-- Phone number -->
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">Phone number</h6>
+                    </div>
+                    <!-- Display phone number -->
+                    <span class="text-muted" contenteditable="true" id="phone"><?php echo $_SESSION['phone_numb'];?></span>
+                </li>
+                <!-- Buttons for editing and logging out -->
+                <li class="list-group-item">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn_edit" id="submit" type="submit">Edit</button>
+                        <a class="btn btn-primary btn_edit" href="logout.php" type="button">LOGOUT</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
+</div>
 
-    <h1 class="liked_header">Liked recipes</h1>
-    <div class="cards">
-        <div class="wrapper"> 
-            <i id="left" class="fa-solid fas fa-angle-left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-                    <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
-                </svg>
-            </i> 
-            <ul class="carousel"> 
-                <li class="card"> 
-                    <div class="img"><img src="../images/spinach_pasta.webp" alt="" draggable="false"> </div> 
-                    <div class="card-body">
-                        <p class="card-text">Easy Slow-Cooker Sun-Dried Tomato & Spinach Pasta.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-body-secondary">9 mins</small>
+<!-- Section for liked recipes -->
+<h1 class="liked_header">Liked recipes</h1>
+<div class="cards">
+    <div class="wrapper"> 
+        <!-- Navigation arrows -->
+        <i id="left" class="fa-solid fas fa-angle-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
+            </svg>
+        </i> 
+        <!-- Carousel for liked recipes -->
+        <ul class="carousel"> 
+            <!-- Individual recipe cards -->
+            <li class="card"> 
+                <!-- Image and details of the recipe -->
+                <div class="img"><img src="../images/spinach_pasta.webp" alt="" draggable="false"> </div> 
+                <div class="card-body">
+                    <p class="card-text">Easy Slow-Cooker Sun-Dried Tomato & Spinach Pasta.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Buttons for viewing and editing the recipe -->
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
-                    </div> 
-                </li> 
-                <li class="card"> 
-                    <div class="img"><img src="../images/alf_chick.webp" alt="" draggable="false"> </div> 
-                    <div class="card-body">
-                        <p class="card-text">The Easiest Chicken Alfredo & Broccoli Rice Casserole.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-body-secondary">9 mins</small>
-                        </div>
-                    </div> 
-                </li> 
-                <li class="card"> 
-                    <div class="img"><img src="../images/chili_bean.webp" alt="" draggable="false"> </div> 
-                    <div class="card-body">
-                        <p class="card-text">Creamy Tomato Bean Soup With Orzo.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-body-secondary">9 mins</small>
-                        </div>
-                    </div> 
-                </li> 
-                <li class="card"> 
-                    <div class="img"><img src="../images/honey_pistachio.webp" alt="" draggable="false"> </div> 
-                    <div class="card-body">
-                        <p class="card-text">Honey Pistachio Slow-Cooker Chex Mix.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-body-secondary">9 mins</small>
-                        </div>
-                    </div> 
-                </li> 
-                <li class="card"> 
-                    <div class="img"><img src="../images/lemon.webp" alt="" draggable="false"> </div> 
-                    <div class="card-body">
-                        <p class="card-text">Honey Lemon Chicken.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-body-secondary">9 mins</small>
-                        </div>
-                    </div> 
-                </li> 
-            </ul> 
-            <i id="right" class="fa-solid fas fa-angle-right">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8zM6.659 13.549l5.48-4.796a1 1 0 0 0 0-1.506l-5.48-4.796A1 1 0 0 0 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg>
-            </i> 
-        </div>
+                        <!-- Estimated cooking time -->
+                        <small class="text-body-secondary">9 mins</small>
+                    </div>
+                </div> 
+            </li> 
+            <!-- Repeat the above structure for each recipe card -->
+        </ul> 
+        <!-- Navigation arrows -->
+        <i id="right" class="fa-solid fas fa-angle-right">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                <path d="M6 12.796V3.204L11.481 8zM6.659 13.549l5.48-4.796a1 1 0 0 0 0-1.506l-5.48-4.796A1 1 0 0 0 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+            </svg>
+        </i> 
     </div>
+</div>
 
     <script src="../ajax.js"></script>
 </body>

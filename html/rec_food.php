@@ -108,10 +108,13 @@ if ($ingrediens_result->num_rows > 0) {
             </ul>
           </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success butt_1" type="submit">Search</button>
-        </form>
+        <form class="d-flex" action="search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
+            </form>
+
+            <script src=../script2.js></script>
+            
         <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
@@ -133,27 +136,28 @@ if ($ingrediens_result->num_rows > 0) {
   <div class="container">
     <div class="row">
       <div class="col order-md-6 receipt_body">
-        <h1><?php echo $food_name; ?></h1>
-        <img class="img_2" src="../images/carrot_cake.webp">
+        <h1><?php echo $food_name; ?></h1> <!-- Displaying the name of the recipe -->
+        <img class="img_2" src="../images/carrot_cake.webp"> <!-- Displaying the image of the recipe -->
         <div class="col order-md-6">
-          <p>Cook time: <?php echo $time; ?> Minutes</p>
-          <p>Serves: <?php echo $servings; ?> serves</p>
-          <p>Price: <?php echo $price; ?>din</p>
+          <p>Cook time: <?php echo $time; ?> Minutes</p> <!-- Displaying the cooking time -->
+          <p>Serves: <?php echo $servings; ?> serves</p> <!-- Displaying the number of servings -->
+          <p>Price: <?php echo $price; ?>din</p> <!-- Displaying the price -->
         </div>
         <br><br><br>
-        <h2>Ingrediens</h2>
+        <h2>Ingrediens</h2> <!-- Ingredients section heading -->
         <br>
         <ul class="rec_ingrediens_list">
           <?php foreach($ingrediens_names as $key => $ingrediens) { ?>
-            <li><?php echo $quantities[$key] . ' ' . $ingrediens; ?></li>
+            <li><?php echo $quantities[$key] . ' ' . $ingrediens; ?></li> <!-- Displaying ingredients with their quantities -->
           <?php } ?>
         </ul>
         <br><br><br>
-        <h2>Preparation</h2>
-        <p><?php echo $paragraph; ?></p><br><br>
+        <h2>Preparation</h2> <!-- Preparation section heading -->
+        <p><?php echo $paragraph; ?></p><br><br> <!-- Displaying the preparation paragraph -->
       </div>
     </div>
   </div>
+
 </body>
 </html>
 

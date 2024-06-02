@@ -1,4 +1,5 @@
 <?php
+    // Defines database connection parameters.
     define("DB", [
         'HOST' => 'localhost',
         'USER' => 'root',
@@ -6,12 +7,15 @@
         'NAME' => 'fridge'
     ]);
     
+    // Establishes mysqli connection.
     $conn = mysqli_connect(DB['HOST'], DB['USER'], DB['PASSWORD'], DB['NAME']);
     
+    // Tries establishing PDO connection with UTF-8 encoding.
     try {
         $dbh = new PDO("mysql:host=" . DB['HOST'] . ";dbname=" . DB['NAME'],
             DB['USER'], DB['PASSWORD'],
             [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'"]);
     } catch (PDOException $e) {
-        exit("Error: " . $e->getMessage());
+        exit("Error: " . $e->getMessage()); // Exits with error message if connection fails.
     }
+?>

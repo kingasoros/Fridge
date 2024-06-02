@@ -169,3 +169,41 @@ function appendIngredients(ingredients) {
     });
 }
 
+function addEntry() {
+    var entry = "<div class='input-group in_ingrediens'><div class='form-group ing_in'><label for='ingredientName' class='form-label'>Ingredient</label><input type='text' id='ingredientName' name='ingredients[]' placeholder='Enter ingredient here...' class='form-control' required='required'/></div><div class='form-group ms-2 ing_in'><label for='quantity' class='form-label'>Quantity</label><input type='text' id='quantity' name='quantities[]' placeholder='Enter quantity here...' class='form-control' required='required'/></div><button type='button' class='btn btn-danger btn-sm remove_btn' onclick='removeEntry(this);'>-</button></div>";
+    var element = document.createElement("div");
+    element.innerHTML = entry;
+    document.getElementById('ingredients').appendChild(element);
+  }
+
+  function removeEntry(btn) {
+    btn.parentNode.parentNode.removeChild(btn.parentNode);
+  }
+
+  function showResult(str) {
+    if (str.length==0) {
+        document.getElementById("livesearch").innerHTML="";
+        document.getElementById("livesearch").style.border="0px";
+        return;
+    }
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+        if (this.readyState==4 && this.status==200) {
+        document.getElementById("livesearch").innerHTML=this.responseText;
+        document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+        }
+    }
+    xmlhttp.open("GET","search.php?q="+str,true);
+    xmlhttp.send();
+}
+
+function addEntry() {
+    var entry = "<div class='input-group in_ingrediens'><div class='form-group ing_in'><label for='ingredientName' class='form-label'>Ingredient</label><input type='text' id='ingredientName' name='ingredients[]' placeholder='Enter ingredient here...' class='form-control' required='required'/></div><div class='form-group ms-2 ing_in'><label for='quantity' class='form-label'>Quantity</label><input type='text' id='quantity' name='quantities[]' placeholder='Enter quantity here...' class='form-control' required='required'/></div><button type='button' class='btn btn-danger btn-sm remove_btn' onclick='removeEntry(this);'>-</button></div>";
+    var element = document.createElement("div");
+    element.innerHTML = entry;
+    document.getElementById('ingredients').appendChild(element);
+  }
+
+  function removeEntry(btn) {
+    btn.parentNode.parentNode.removeChild(btn.parentNode);
+  }

@@ -1,40 +1,36 @@
 <?php
 
-// Db_conn.php hozzáadása
 require 'db_conn.php';
 
-if (isset($_GET['token'])) {
-    $token = $_GET['token'];
+if (isset($_GET['token'])) { // Checks if 'token' parameter is set.
+    $token = $_GET['token']; // Retrieves the token from the URL.
 
-    // Ellenőrizd az adatbázisban, hogy létezik-e a token és még érvényes-e
-    $sql = "SELECT * FROM profil WHERE activation_token = '$token'";
+    $sql = "SELECT * FROM profil WHERE activation_token = '$token'"; // SQL query to find a row with the provided token.
 
-    $result = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql); // Executes the query.
 
-    if (mysqli_num_rows($result) > 0) {
-        // Token érvényes, frissítsd a felhasználó státuszát
-        $row = mysqli_fetch_assoc($result);
-        $userId = $row['profil_id'];
-        $sqlUpdate = "UPDATE profil SET activated = 1 WHERE profil_id = $userId ";
-        if (mysqli_query($conn, $sqlUpdate)) {
-            // Sikeres aktiváció, továbbítsd a felhasználót egy "sikeres aktiváció" oldalra
-            header("Location: ../index.php");
+    if (mysqli_num_rows($result) > 0) { // Checks if a matching row is found.
+
+        $row = mysqli_fetch_assoc($result); // Fetches the row.
+        $userId = $row['profil_id']; // Retrieves user ID.
+        $sqlUpdate = "UPDATE profil SET activated = 1 WHERE profil_id = $userId "; // Updates activation status.
+
+        if (mysqli_query($conn, $sqlUpdate)) { // Executes the update query.
+
+            header("Location: ../index.php"); // Redirects upon successful activation.
             exit();
         } else {
-            // Hiba az adatbázis frissítésekor
-            // header("Location: activation_error1.php");
-            // exit();
-            header("Location: activation_error.php");
+            header("Location: activation_error.php"); // Redirects to error page on update failure.
             exit();
         }
     } else {
-        // Érvénytelen vagy lejárt token
-        header("Location: activation_error.php");
+
+        header("Location: activation_error.php"); // Redirects to error page if no matching token found.
         exit();
     }
 } else {
-    // Ha nincs token az URL-ben
-    header("Location: activation_error.php");
+
+    header("Location: activation_error.php"); // Redirects to error page if 'token' parameter is missing.
     exit();
 }
 ?>

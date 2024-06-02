@@ -1,25 +1,28 @@
 <?php
-// Adatbázis kapcsolódás
+
 include "db_conn.php";
 
-// Lekérjük az összes összetevőt az adatbázisból
+// SQL query to select ingredient names.
 $sql = "SELECT name FROM ingrediens";
 $result = mysqli_query($conn, $sql);
 
-// Ellenőrizzük, hogy van-e eredmény
+// Checks if there are results.
 if (mysqli_num_rows($result) > 0) {
-    $ingredients = array();
-    // Végigiterálunk az eredményen és hozzáadjuk az összetevőket az $ingredients tömbhöz
+    $ingredients = array(); // Initializes an array to store ingredient names.
+
+    // Loops through the results and adds ingredient names to the array.
     while ($row = mysqli_fetch_assoc($result)) {
         $ingredients[] = $row['name'];
     }
-    // Visszaadjuk az összetevők listáját JSON formátumban
+
+    // Outputs JSON encoded array of ingredient names.
     echo json_encode($ingredients);
 } else {
-    // Ha nincs eredmény, üres tömböt adunk vissza
+    // Outputs an empty JSON array if no ingredients are found.
     echo json_encode([]);
 }
 
-// Adatbázis kapcsolat bezárása
+// Closes the database connection.
 mysqli_close($conn);
 ?>
+

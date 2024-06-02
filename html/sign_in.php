@@ -41,10 +41,13 @@ session_start();
                 </ul>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success butt_1" type="submit">Search</button>
+            <form class="d-flex" action="search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
             </form>
+
+            <script src=../script2.js></script>
+            
 
         <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
@@ -64,32 +67,39 @@ session_start();
     </div>
       </nav>
       <div class="container">
-        <main class="cont_3">
-          <h4 class="mb-3">SIGN IN</h4>
-            <form class="needs-validation" novalidate action="login.php" method="post">
-              <div class="row g-3">
+    <!-- Main sign-in section -->
+    <main class="cont_3">
+        <!-- Sign-in form header -->
+        <h4 class="mb-3">SIGN IN</h4>
+        <!-- Sign-in form -->
+        <form class="needs-validation" novalidate action="login.php" method="post">
+            <div class="row g-3">
                 <div class="col-12">
-
-                  <?php if(isset($_GET['error'])) {?>
-                    <p class="error"><?php echo $_GET['error']; ?></p>
-                  <?php } ?>
-
-                  <label for="username" class="form-label">Username</label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text">@</span>
-                    <input type="text" name="uname" class="form-control" id="username" placeholder="Username" required>
-                  </div>
+                    <!-- Display error message if present -->
+                    <?php if(isset($_GET['error'])) {?>
+                        <p class="error"><?php echo $_GET['error']; ?></p>
+                    <?php } ?>
+                    <!-- Username input -->
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text">@</span>
+                        <input type="text" name="uname" class="form-control" id="username" placeholder="Username" required>
+                    </div>
                 </div>
-
                 <div class="col-12">
+                    <!-- Password input -->
                     <label for="password" class="form-label">Password</label>
-                      <input type="password" name="pass" class="form-control" id="password" placeholder="example.123">
-                  </div>
-        
+                    <input type="password" name="pass" class="form-control" id="password" placeholder="example.123">
+                </div>
+                <!-- Sign-in button -->
                 <hr class="my-4">
                 <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Sign in</button>
+                <!-- Link to create an account -->
                 <a href="sign_up.php" class="ca">Create an account.</a>
-            </form>
-        </main>
+            </div>
+        </form>
+    </main>
+</div>
+
     </body>
 </html>

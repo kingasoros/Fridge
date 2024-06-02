@@ -41,10 +41,13 @@ session_start();
                 </ul>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success butt_1" type="submit">Search</button>
+            <form class="d-flex" action="search.php" method="get">
+                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+                <div id="livesearch"></div>
             </form>
+
+            <script src=../script2.js></script>
+            
           
 
         <div class="dropdown">
@@ -66,103 +69,72 @@ session_start();
       </nav>
 
       <div class="container">
-        <main class="cont_2">
-          <h4 class="mb-3">SIGN UP</h4>
-            <form class="needs-validation" action="sign_up_check.php" novalidate method="post">
-
-            <?php if(isset($_GET['error'])) {?>
+    <main class="cont_2">
+        <h4 class="mb-3">SIGN UP</h4>
+        <!-- Display error message if present -->
+        <?php if(isset($_GET['error'])) {?>
             <p class="error"><?php echo $_GET['error']; ?></p>
-           <?php } ?>    
-
-           <?php if(isset($_GET['success'])) {?>
-               <p class="success"><?php echo $_GET['success']; ?></p>
-           <?php } ?>
-
-              <div class="row g-3">
+        <?php } ?>    
+        <!-- Display success message if present -->
+        <?php if(isset($_GET['success'])) {?>
+            <p class="success"><?php echo $_GET['success']; ?></p>
+        <?php } ?>
+        <form class="needs-validation" action="sign_up_check.php" novalidate method="post">
+            <div class="row g-3">
                 <div class="col-sm-6">
-                  <label for="f_name" class="form-label">First name</label>
-                  <?php if(isset($_GET['f_name'])) {?>
-                  <input type="text"
-                    class="form-control"
-                    name="f_name" 
-                    id="f_name"
-                    placeholder="Example"
-                    value=" <?php echo $_GET['f_name'];?>"><br>
-                  <?php }else{ ?> 
-                  <input type="text"
-                    class="form-control"
-                    name="f_name" 
-                    id="f_name"
-                    placeholder="Example"><br>
-                  <?php } ?>
+                    <label for="f_name" class="form-label">First name</label>
+                    <!-- Populate input field with value if available -->
+                    <?php if(isset($_GET['f_name'])) {?>
+                        <input type="text" class="form-control" name="f_name" id="f_name" placeholder="Example" value="<?php echo $_GET['f_name'];?>"><br>
+                    <?php }else{ ?> 
+                        <input type="text" class="form-control" name="f_name" id="f_name" placeholder="Example"><br>
+                    <?php } ?>
                 </div>
-
                 <div class="col-sm-6">
-                  <label for="l_name" class="form-label">Last name</label>
-                  <?php if(isset($_GET['l_name'])) {?>
-                  <input type="text"
-                    class="form-control"
-                    name="l_name" 
-                    id="l_name"
-                    placeholder="Example"
-                    value=" <?php echo $_GET['l_name'];?>"><br>
-                  <?php }else{ ?> 
-                  <input type="text"
-                    class="form-control"
-                    name="l_name" 
-                    id="l_name"
-                    placeholder="Example"><br>
-                  <?php } ?>
+                    <label for="l_name" class="form-label">Last name</label>
+                    <!-- Populate input field with value if available -->
+                    <?php if(isset($_GET['l_name'])) {?>
+                        <input type="text" class="form-control" name="l_name" id="l_name" placeholder="Example" value="<?php echo $_GET['l_name'];?>"><br>
+                    <?php }else{ ?> 
+                        <input type="text" class="form-control" name="l_name" id="l_name" placeholder="Example"><br>
+                    <?php } ?>
                 </div>
-              </div>
-
-                <div class="col-12">
-                  <label for="uname" class="form-label">Username</label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text">@</span>
+            </div>
+            <div class="col-12">
+                <label for="uname" class="form-label">Username</label>
+                <div class="input-group has-validation">
+                    <!-- Populate input field with value if available -->
                     <?php if(isset($_GET['uname'])) {?>
-                    <input type="text"
-                    class="form-control"
-                    name="uname" 
-                    id="uname"
-                    placeholder="Example.123"
-                    value=" <?php echo $_GET['uname'];?>"><br>
-                  <?php }else{ ?> 
-                  <input type="text"
-                    class="form-control"
-                    name="uname" 
-                    id="uname"
-                    placeholder="Example.123"><br>
-                  <?php } ?>
-                  </div>
+                        <input type="text" class="form-control" name="uname" id="uname" placeholder="Example.123" value="<?php echo $_GET['uname'];?>"><br>
+                    <?php }else{ ?> 
+                        <input type="text" class="form-control" name="uname" id="uname" placeholder="Example.123"><br>
+                    <?php } ?>
                 </div>
-
-                <div class="col-12">
-                  <label for="phone" class="form-label">Phone</label>
-                  <div class="input-group has-validation">
+            </div>
+            <div class="col-12">
+                <label for="phone" class="form-label">Phone</label>
+                <div class="input-group has-validation">
                     <input type="text" name="phone_numb" class="form-control" id="phone" placeholder="0600000000" required>
-                  </div>
                 </div>
-          
-                <div class="col-12">
-                  <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com">
-                </div>
+            </div>
+            <div class="col-12">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com">
+            </div>
+            <div class="col-12">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="pass" class="form-control" id="password" placeholder="example.123">
+            </div>
+            <div class="col-12">
+                <label for="re_password" class="form-label">Password</label>
+                <input type="password" name="re_pass" class="form-control" id="re_password" placeholder="example.123">
+            </div>
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Registration</button>
+            <a href="sign_in.php" class="ca">Already have an account?</a>
+        </form>
+    </main>
+</div>
 
-                <div class="col-12">
-                  <label for="password" class="form-label">Password</label>
-                    <input type="password" name="pass" class="form-control" id="password" placeholder="example.123">
-                </div>
-
-                <div class="col-12">
-                  <label for="re_password" class="form-label">Password</label>
-                    <input type="password" name="re_pass" class="form-control" id="re_password" placeholder="example.123">
-                </div>
-          
-                <hr class="my-4">
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Registration</button>
-                <a href="sign_in.php" class="ca">Already have an account?</a>
-            </form>
-        </main>
     </body>
 </html>
