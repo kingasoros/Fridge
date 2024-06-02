@@ -7,15 +7,15 @@ if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
     // Ellenőrizd az adatbázisban, hogy létezik-e a token és még érvényes-e
-    $sql = "SELECT * FROM profil WHERE activation_token = '$token'";
+    $sql = "SELECT * FROM receipt WHERE activation_token = '$token'";
 
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         // Token érvényes, frissítsd a felhasználó státuszát
         $row = mysqli_fetch_assoc($result);
-        $userId = $row['profil_id'];
-        $sqlUpdate = "UPDATE profil SET activated = 1 WHERE profil_id = $userId ";
+        $receiptId = $row['receipt_id'];
+        $sqlUpdate = "UPDATE receipt SET activated = 1 WHERE receipt_id = $receiptId ";
         if (mysqli_query($conn, $sqlUpdate)) {
             // Sikeres aktiváció, továbbítsd a felhasználót egy "sikeres aktiváció" oldalra
             header("Location: ../index.php");

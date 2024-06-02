@@ -18,7 +18,7 @@ if (isset($_GET['token'])) {
         $sqlUpdate = "UPDATE profil SET activated = 0 WHERE profil_id = $userId ";
         if (mysqli_query($conn, $sqlUpdate)) {
             // Sikeres aktiváció, továbbítsd a felhasználót egy "sikeres aktiváció" oldalra
-            header("Location: ../index.html");
+            header("Location: ../index.php");
             exit();
         } else {
             // Hiba az adatbázis frissítésekor

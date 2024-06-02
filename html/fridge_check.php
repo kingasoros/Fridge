@@ -25,7 +25,7 @@ if(isset($_POST['ingredientName'])){
         $result = mysqli_query($conn, $sql);
 
         if(mysqli_num_rows($result) >0){
-            header("Location:sign_up.php?error=This ingredient is deposited.");
+            header("Location:fridge.php?error=This ingredient is deposited.");
             exit();
         } else {
             $sql2="INSERT INTO ingrediens (name) VALUES ('$ing_name')";

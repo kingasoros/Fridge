@@ -32,6 +32,7 @@ if(empty($uname)){
     if(mysqli_num_rows($result) === 1){
         $row = mysqli_fetch_assoc($result);
         if($row['user_name'] === $uname && $row['password'] === $pass){
+            $_SESSION['profil_id'] = $row['profil_id'];
             $_SESSION['last_name'] = $row['last_name'];
             $_SESSION['phone_numb'] = $row['phone_numb'];
             $_SESSION['user_name'] = $row['user_name'];

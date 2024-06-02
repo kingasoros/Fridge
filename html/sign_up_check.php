@@ -60,12 +60,12 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
 
             if ($result2) {
                 
-                $activationLink = 'http://localhost/fridge_project/html/activate.php?token=' . $activationToken;
+                $activationLink = 'http://localhost/fridge_projekt/html/activate.php?token=' . $activationToken;
                 $message = "
                     <p>Please confirm this registration:</p>
                     <p>
                         <a href='$activationLink'>Elfogadás</a>
-                        <a href='http://localhost/fridge_project/html/rejection.php?token=$activationToken&action=reject'>Elutasítás</a>
+                        <a href='http://localhost/fridge_projekt/html/rejection.php?token=$activationToken&action=reject'>Elutasítás</a>
                     </p>
                 ";
                 sendEmail($email, 'Confirmation of registration', $message, true);

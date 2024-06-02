@@ -1,9 +1,71 @@
 <?php
-  
-    require "db_conn.php";
 
+require "db_conn.php";
 
-    session_start();
+$ingrediens_names = [];
+$quantities = [];
+
+if(isset($_GET['receipt_id'])){
+  $receipt_id = $_GET['receipt_id'];
+}
+
+// Lekérdezések
+$food_name_query = "SELECT food_name FROM receipt WHERE receipt_id = '$receipt_id'";
+$time_query = "SELECT time FROM receipt WHERE receipt_id = '$receipt_id'";
+$price_query = "SELECT price FROM receipt WHERE receipt_id = '$receipt_id'";
+$paragraph_query = "SELECT paragraph FROM receipt WHERE receipt_id = '$receipt_id'";
+$name_query = "SELECT your_name FROM receipt WHERE receipt_id = '$receipt_id'";
+$servings_query = "SELECT servings FROM receipt WHERE receipt_id = '$receipt_id'";
+$ingrediens_query = "SELECT i.name, ri.quantity FROM ingrediens i
+                     JOIN receipt_ingredient ri ON i.ingrediens_id = ri.ingrediens_id
+                     WHERE ri.receipt_id = '$receipt_id'";
+
+// Eredmények lekérdezése
+$food_name_result = $conn->query($food_name_query);
+$time_result = $conn->query($time_query);
+$price_result = $conn->query($price_query);
+$paragraph_result = $conn->query($paragraph_query);
+$name_result = $conn->query($name_query);
+$servings_result = $conn->query($servings_query);
+$ingrediens_result = $conn->query($ingrediens_query);
+
+// Adatok feldolgozása
+if ($food_name_result->num_rows > 0) {
+  $row = $food_name_result->fetch_assoc();
+  $food_name = $row['food_name'];
+}
+
+if ($time_result->num_rows > 0) {
+  $row = $time_result->fetch_assoc();
+  $time = $row['time'];
+}
+
+if ($price_result->num_rows > 0) {
+  $row = $price_result->fetch_assoc();
+  $price = $row['price'];
+}
+
+if ($paragraph_result->num_rows > 0) {
+  $row = $paragraph_result->fetch_assoc();
+  $paragraph = $row['paragraph'];
+}
+
+if ($name_result->num_rows > 0) {
+  $row = $name_result->fetch_assoc();
+  $name = $row['your_name'];
+}
+
+if ($servings_result->num_rows > 0) {
+  $row = $servings_result->fetch_assoc();
+  $servings = $row['servings'];
+}
+
+if ($ingrediens_result->num_rows > 0) {
+  while($row = $ingrediens_result->fetch_assoc()) {
+    $ingrediens_names[] = $row['name'];
+    $quantities[] = $row['quantity'];
+  }
+}
 
 
 ?>
@@ -70,8 +132,8 @@
 
     <div class="container">
         <main class="cont_2">
-          <h4 class="mb-3">ADDING RECIPES</h4>
-            <form class="needs-validation" action="rec_add_check.php" enctype="multipart/form-data" novalidate method="post">
+          <h4 class="mb-3">EDITING RECIPES</h4>
+            <form class="needs-validation" action="receipt_edit_check.php" novalidate method="post">
 
               <?php if(isset($_GET['error'])) {?>
                 <p class="error"><?php echo $_GET['error']; ?></p>
@@ -83,55 +145,54 @@
               <div class="row g-3">
                 <div class="col-sm-12">
                   <label for="foodName" class="form-label">Food name</label>
-                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" required>
+                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" value="<?php echo $food_name;?>" required >
                 </div>
 
                 <div class="col-sm-12">
                   <label for="yourName" class="form-label">Your name</label>
-                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required>
+                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese" value="<?php echo $name;?>" required>
                 </div>
           
                 <div class="col-sm-12">
                   <label for="time" class="form-label">Cook time:</label>
-                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" required>
+                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" value="<?php echo $time;?>"required>
                 </div>
 
                 <div class="col-sm-12">
                   <label for="price" class="form-label">Relative price (in dinar):</label>
-                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" required>
+                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" value="<?php echo $price;?>" required>
                 </div>
 
                 <div class="col-sm-12">
                   <label for="serv" class="form-label">Serves:</label>
-                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" required>
+                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" value="<?php echo $servings;?>"required>
                 </div>
 
-                <div class="input-group mb-3">
-                  <label for="food_photo" class="form-label col-sm-12">Upload a picture of the food:</label>
-                  <input type="file" name="food_photo" class="form-control" id="food_photo">
-                </div>
-
+            <?php foreach($ingrediens_names as $key => $ingrediens) { ?>
                 <div class="input-group" id="ingredients">
                 <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button>
                   <div class="form-group ing_in">
                     <label for="ingredientName" class="form-label">Ingredient</label>
-                    <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control" required="required"/>
+                    <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control"  value="<?php echo $ingrediens;?>" required="required"/>
                   </div>
                   <div class="form-group ms-2 ing_in">
                     <label for="quantity" class="form-label">Quantity</label>
-                    <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control" required="required"/>
+                    <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control"  value="<?php echo $quantities[$key];?>" required="required"/>
                   </div>
-                  
                </div>
+            <?php } ?>   
         
                </div>
                <br><br>
                 <div class="form-floating">
-                  <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
+                  <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"><?php echo $paragraph;?> </textarea>
                   <label for="floatingTextarea2">Preparation</label>
                 </div>
+
+                <input type="hidden" name="receipt_id" value="<?php echo $receipt_id; ?>">
+
                 <br><br>
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button>
+                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Edit</button>
                 </div>
             </form>
             

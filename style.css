@@ -136,10 +136,6 @@ body{
   border:3px solid #ffc107;
   }
   
-  .d-grid{
-  background-color: #444;
-  }
-  
   .dropdown{
   margin-left: 1%;
   }
@@ -346,25 +342,45 @@ body{
   }
 
   .add_btn{
-    width:37px;
-    height:37px;
-    margin:2% 1% 0% 1%;
+    height: 37px;
+    margin: 3.5% 0% 0% 2%;
     background-color: #4663c4;
   }
 
   .remove_btn{
-    width:37px;
-    height:37px;
-    margin:2% 1% 0% 3%;
+    height: 37px;
+    margin: 3.5% 1% 0% 2%;
   }
   
-  .ing_adding{
-    margin-left:13%;
+  .in_ingrediens {
+    width:195%;
+    margin-right: 5%;
   }
  
+  .ing_in{
+    margin-left: 5%;
+  }
 /* .ing_in{
   margin:auto;
 } */
+
+.rec_ingrediens_list{
+  text-align: left;
+}
+
+#livesearch{
+  position: absolute;
+  top: 84%;
+  z-index: 999;
+  float: left;
+  min-width: 13rem;
+  color: #000;
+  list-style: none;
+  background-color: #ffffffc4;
+  background-clip: padding-box;
+  text-align: left;
+  text-decoration: none;
+} 
 
   @media (min-width: 768px) {
   .col-md-6 {
