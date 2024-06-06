@@ -53,8 +53,9 @@ include "db_conn.php";
                 </li>
             </ul>
             <!-- Search form -->
-            <form class="d-flex" action="search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+            <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 
@@ -105,7 +106,12 @@ include "db_conn.php";
             </form>
             <!-- Search input field -->
             <h2 class="ing_title" >Search Ingredients</h2>
-            <input type="text" id="searchInput" oninput="searchIngredients()" placeholder="Search...">
+
+            <form action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult2(this.value)" placeholder="Search..."><br>
+                <div id="livesearch2"></div>
+            </form>
+
             <!-- Search results container -->
             <div id="searchResults"></div>        
             <!-- Ingredients list -->
@@ -154,13 +160,33 @@ include "db_conn.php";
             <!-- Clear all ingredients button -->
             <button type="submit" class="remove button submit" onclick="clearAllIngredients()">Clear All</button>
             <!-- Find recipes button -->
-            <div class="button submit" onclick="findRecipes()">
-                <span class="button">Find Recipes</span>
+
+            <button type="button" class="button submit" onclick="findRecipes()">Find Recipes</button>
+            <div id="livesearch3">
+            <?php
+            if (isset($_GET['recipes'])) {
+                $recipes = json_decode(urldecode($_GET['recipes']), true);
+                if (is_array($recipes)) {
+                    foreach ($recipes as $recipe) {
+                        echo "<a href='rec_food.php?receipt_id=" . htmlspecialchars($recipe['receipt_id']) . "'>" . htmlspecialchars($recipe['food_name']) . "</a><br>";
+                        // echo "<p class='recipe' data-receipt-id='" . htmlspecialchars($recipe['receipt_id']) . "'>Selected Recipe: " . htmlspecialchars($recipe['food_name']) . " (ID: " . htmlspecialchars($recipe['receipt_id']) . ")</p>";
+                    }
+                } else {
+                    echo "<p>Invalid recipe data.</p>";
+                }
+            } else {
+                if (isset($_GET['message'])) {
+                    echo "<p>" . htmlspecialchars($_GET['message']) . "</p>";
+                } else {
+                    echo "<p>No recipe selected.</p>";
+                }
+            }
+            ?>
             </div>
+            
         </div>
     </div>
 </div>
-<!-- External JavaScript file -->
-<script src="../script2.js"></script>
+
 </body>
 </html>

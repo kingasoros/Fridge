@@ -108,8 +108,9 @@ if ($ingrediens_result->num_rows > 0) {
             </ul>
           </li>
         </ul>
-        <form class="d-flex" action="search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+        <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 

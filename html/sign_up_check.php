@@ -84,7 +84,7 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
         }
     }
     // Redirect if not all fields are provided
-    else {
+}else {
         header("Location:sign_up.php");
         exit();
     }

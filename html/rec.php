@@ -60,8 +60,9 @@ if ($result->num_rows > 0) {
                 </ul>
               </li>
             </ul>
-            <form class="d-flex" action="search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+            <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 
@@ -86,7 +87,6 @@ if ($result->num_rows > 0) {
     </nav>
 
     <main>
-        <!-- Main content section for displaying recipe cards -->
         <div class="album py-5 bg-body-tertiary">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -98,33 +98,25 @@ if ($result->num_rows > 0) {
                     ?>
                     <div class="col">
                         <div class="card shadow-sm">
-                            <!-- Recipe image -->
-                            <!-- <?php echo '<img class="card_imgs" alt="Recipe Image" src="data:image/jpg;base64,'.base64_encode($img).'" />';?>  -->
+                         <!-- <?php echo '<img class="card_imgs" alt="Recipe Image" src="data:image/jpg;base64,'.base64_encode($img).'" />';?> -->
                             <img class="card_imgs" src="../images/spinach_pasta.webp" alt="Recipe Image">
-                            <!-- Recipe card body -->
                             <div class="card-body">
-                                <!-- Recipe name -->
                                 <p class="card-text"><?php echo htmlspecialchars($food_name); ?></p>
-                                <!-- Buttons for viewing, editing, and deleting recipes -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <!-- View button -->
                                         <form method="get" action="rec_food.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
                                         </form>
-                                        <!-- Edit button -->
                                         <form method="get" action="receipt_edit.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
                                         </form>
-                                        <!-- Delete button -->
                                         <form method="post" action="delete_food.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
                                         </form>
                                     </div>
-                                    <!-- Cooking time -->
                                     <small class="text-body-secondary"><?php echo htmlspecialchars($time); ?> mins</small>
                                 </div>
                             </div>
@@ -136,11 +128,9 @@ if ($result->num_rows > 0) {
         </div>
     </main>
 
-    <!-- Footer section -->
     <footer class="text-body-secondary py-5">
         <div class="container">
             <p class="float-end mb-1">
-                <!-- Link to go back to top -->
                 <a href="#">Back to top</a>
             </p>
         </div>

@@ -3,27 +3,28 @@
 require "db_conn.php";
 
 // Checking if the 'q' parameter is set in the URL and not empty
-if(isset($_GET['q']) && !empty($_GET['q'])) {
+if (isset($_GET['q']) && !empty($_GET['q'])) {
     // Getting the search input from the URL
     $searchInput = $_GET['q'];
-    
-    // Query to search for receipts with food names similar to the search input
+    $currentPage = isset($_GET['page']) ? $_GET['page'] : 'default_page';
+
+    // Query to search for ingredients with names similar to the search input
     $sql = "SELECT * FROM receipt WHERE food_name LIKE ?";
     $stmt = $conn->prepare($sql);
-    
+
     // Preparing the statement and executing it
-    if($stmt) {
+    if ($stmt) {
         $search = "%" . $searchInput . "%";
         $stmt->bind_param("s", $search);
         $stmt->execute();
-        
+
         // Getting the result set
         $result = $stmt->get_result();
 
         // Checking if there are any matching results
         if ($result->num_rows > 0) {
             // Looping through the results
-            while($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch_assoc()) {
                 $food = $row['food_name'];
                 
                 // Query to get the receipt ID for the current food name
@@ -35,8 +36,43 @@ if(isset($_GET['q']) && !empty($_GET['q'])) {
                 $row2 = $result2->fetch_assoc();
                 $receipt_id = $row2['receipt_id'];
 
+                // Constructing the URL based on the current page
+                $url = '';
+                switch ($currentPage) {
+                    case 'index':
+                        $url = 'index.php';
+                        break;
+                    case 'sign_up':
+                        $url = 'sign_up.php';
+                        break;
+                    case 'receipt_edit':
+                        $url = 'receipt_edit.php';
+                        break;
+                    case 'rec':
+                        $url = 'rec.php';
+                        break;
+                    case 'rec_food':
+                        $url = 'rec_food.php';
+                        break;
+                    case 'rec_add':
+                        $url = 'rec_add.php';
+                        break; 
+                    case 'profile':
+                        $url = 'profile.php';
+                        break;   
+                    case 'fridge':
+                        $url = 'fridge.php';
+                        break; 
+                    case 'adm':
+                        $url = 'adm.php';
+                        break; 
+                    default:
+                        $url = 'rec_food.php';
+                        break;
+                }
+
                 // Displaying the search results with hyperlinks to the corresponding recipe pages
-                echo "<a href='rec_food.php?receipt_id=" . $receipt_id . "'>" . $row["food_name"] . "</a><br>";
+                echo "<a href='" . $url . "?receipt_id=" . $receipt_id . "'>" . $row["food_name"] . "</a><br>";
             }
         } else {
             // If no matching results found

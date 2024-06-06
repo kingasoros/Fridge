@@ -1,13 +1,17 @@
-<?php
+<?php 
 
 require "db_conn.php";
 
 $ingrediens_names = [];
 $quantities = [];
 
-if(isset($_GET['receipt_id'])){
-  $receipt_id = $_GET['receipt_id'];
+if (isset($_GET['receipt_id'])) {
+    $receipt_id = $_GET['receipt_id'];
 }
+
+// Continue with your queries using $receipt_id
+
+
 
 // Lekérdezések
 $food_name_query = "SELECT food_name FROM receipt WHERE receipt_id = '$receipt_id'";
@@ -107,8 +111,9 @@ if ($ingrediens_result->num_rows > 0) {
                 </ul>
               </li>
             </ul>
-            <form class="d-flex" action="search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+            <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 
@@ -134,83 +139,70 @@ if ($ingrediens_result->num_rows > 0) {
 
 
     <div class="container">
-    <main class="cont_2">
-        <!-- Form for editing recipes -->
-        <h4 class="mb-3">EDITING RECIPES</h4>
-        <form class="needs-validation" action="receipt_edit_check.php" novalidate method="post">
-            <?php if(isset($_GET['error'])) {?>
-                <!-- Error message display -->
+        <main class="cont_2">
+          <h4 class="mb-3">EDITING RECIPES</h4>
+            <form class="needs-validation" action="receipt_edit_check.php" novalidate method="post">
+
+              <?php if(isset($_GET['error'])) {?>
                 <p class="error"><?php echo $_GET['error']; ?></p>
-            <?php } ?>    
+               <?php } ?>    
     
-            <?php if(isset($_GET['success'])) {?>
-                <!-- Success message display -->
-                <p class="success"><?php echo $_GET['success']; ?></p>
-            <?php } ?>
-            <div class="row g-3">
+               <?php if(isset($_GET['success'])) {?>
+                   <p class="success"><?php echo $_GET['success']; ?></p>
+               <?php } ?>
+              <div class="row g-3">
                 <div class="col-sm-12">
-                    <!-- Input for food name -->
-                    <label for="foodName" class="form-label">Food name</label>
-                    <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" value="<?php echo $food_name;?>" required >
+                  <label for="foodName" class="form-label">Food name</label>
+                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" value="<?php echo $food_name;?>" required >
                 </div>
 
                 <div class="col-sm-12">
-                    <!-- Input for your name -->
-                    <label for="yourName" class="form-label">Your name</label>
-                    <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese" value="<?php echo $name;?>" required>
+                  <label for="yourName" class="form-label">Your name</label>
+                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese" value="<?php echo $name;?>" required>
                 </div>
           
                 <div class="col-sm-12">
-                    <!-- Input for cook time -->
-                    <label for="time" class="form-label">Cook time:</label>
-                    <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" value="<?php echo $time;?>"required>
+                  <label for="time" class="form-label">Cook time:</label>
+                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" value="<?php echo $time;?>"required>
                 </div>
 
                 <div class="col-sm-12">
-                    <!-- Input for price -->
-                    <label for="price" class="form-label">Relative price (in dinar):</label>
-                    <input type="text" name="price" class="form-control" id="price" placeholder="1500" value="<?php echo $price;?>" required>
+                  <label for="price" class="form-label">Relative price (in dinar):</label>
+                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" value="<?php echo $price;?>" required>
                 </div>
 
                 <div class="col-sm-12">
-                    <!-- Input for serves -->
-                    <label for="serv" class="form-label">Serves:</label>
-                    <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" value="<?php echo $servings;?>"required>
+                  <label for="serv" class="form-label">Serves:</label>
+                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" value="<?php echo $servings;?>"required>
                 </div>
 
-                <?php foreach($ingrediens_names as $key => $ingrediens) { ?>
-                    <div class="input-group" id="ingredients">
-                        <!-- Input for ingredients -->
-                        <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button>
-                        <div class="form-group ing_in">
-                            <label for="ingredientName" class="form-label">Ingredient</label>
-                            <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control"  value="<?php echo $ingrediens;?>" required="required"/>
-                        </div>
-                        <div class="form-group ms-2 ing_in">
-                            <!-- Input for quantities -->
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control"  value="<?php echo $quantities[$key];?>" required="required"/>
-                        </div>
-                    </div>
-                <?php } ?>   
+            <?php foreach($ingrediens_names as $key => $ingrediens) { ?>
+                <div class="input-group" id="ingredients">
+                <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button>
+                  <div class="form-group ing_in">
+                    <label for="ingredientName" class="form-label">Ingredient</label>
+                    <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control"  value="<?php echo $ingrediens;?>" required="required"/>
+                  </div>
+                  <div class="form-group ms-2 ing_in">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control"  value="<?php echo $quantities[$key];?>" required="required"/>
+                  </div>
+               </div>
+            <?php } ?>   
         
-            </div>
-            <br><br>
-            <!-- Textarea for preparation -->
-            <div class="form-floating">
-                <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"><?php echo $paragraph;?></textarea>
-                <label for="floatingTextarea2">Preparation</label>
-            </div>
+               </div>
+               <br><br>
+                <div class="form-floating">
+                  <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"><?php echo $paragraph;?> </textarea>
+                  <label for="floatingTextarea2">Preparation</label>
+                </div>
 
-            <!-- Hidden input for receipt ID -->
-            <input type="hidden" name="receipt_id" value="<?php echo $receipt_id; ?>">
+                <input type="hidden" name="receipt_id" value="<?php echo $receipt_id; ?>">
 
-            <br><br>
-            <!-- Submit button for editing -->
-            <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Edit</button>
-            </div>
-            </main>
-          </form>
+                <br><br>
+                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Edit</button>
+                </div>
+            </form>
 
 
             <script src="../srcipt2.js"></script>

@@ -382,6 +382,33 @@ body{
   text-decoration: none;
 } 
 
+
+#livesearch2{
+  top: 37%;
+  z-index: 999;
+  float: left;
+  min-width: 12rem;
+  color: #000;
+  list-style: none;
+  background-color: #ffffffc4;
+  background-clip: padding-box;
+  text-align: left;
+  text-decoration: none;
+} 
+
+#livesearch3 {
+  width: 100%;
+  background-color: #ffffffc4;
+  padding: 5%;
+  margin-top: 10%;
+  border-radius: 6%;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
   @media (min-width: 768px) {
   .col-md-6 {
     flex: 0 0 auto;
