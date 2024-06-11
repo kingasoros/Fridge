@@ -45,8 +45,9 @@
                 </ul>
               </li>
             </ul>
-            <form class="d-flex" action="search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+            <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 
@@ -92,6 +93,11 @@
                 <div class="col-sm-12">
                   <label for="yourName" class="form-label">Your name</label>
                   <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required> <!-- Input field for user name -->
+                </div>
+
+                <div class="col-sm-12">
+                  <label for="categories" class="form-label">Category</label>
+                  <input type="text" name="categories" class="form-control" id="categories" placeholder="Vegan"  required> <!-- Input field for user name -->
                 </div>
           
                 <div class="col-sm-12">

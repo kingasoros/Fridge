@@ -41,8 +41,9 @@ session_start();
                 </ul>
               </li>
             </ul>
-            <form class="d-flex" action="search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+            <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 
@@ -79,7 +80,7 @@ session_start();
         <?php if(isset($_GET['success'])) {?>
             <p class="success"><?php echo $_GET['success']; ?></p>
         <?php } ?>
-        <form class="needs-validation" action="sign_up_check.php" novalidate method="post">
+        <form class="needs-validation" action="sign_up_check.php" enctype="multipart/form-data" novalidate method="post">
             <div class="row g-3">
                 <div class="col-sm-6">
                     <label for="f_name" class="form-label">First name</label>
@@ -120,7 +121,11 @@ session_start();
             <div class="col-12">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com">
-            </div>
+            </div><br>
+            <div class="input-group mb-3">
+                  <label for="user_photo" class="form-label col-sm-12">Upload a picture of yourself:</label>
+                  <input type="file" name="user_photo" class="form-control" id="user_photo"> <!-- Input field for uploading food photo -->
+                </div>
             <div class="col-12">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" name="pass" class="form-control" id="password" placeholder="example.123">

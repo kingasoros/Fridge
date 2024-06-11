@@ -25,7 +25,8 @@ if (
     isset($_POST['food_name']) && isset($_POST['your_name']) &&
     isset($_POST['time']) && isset($_POST['price']) &&
     isset($_POST['servings']) && isset($_POST['prep']) &&
-    isset($_POST['ingredients']) && isset($_POST['quantities'])
+    isset($_POST['ingredients']) && isset($_POST['quantities']) && 
+    isset($_POST['categories'])
 ) {
 
     // Function to validate input data
@@ -45,15 +46,16 @@ if (
     $prep = validate($_POST['prep']);
     $ingredients = $_POST['ingredients'];
     $quantities = $_POST['quantities'];
+    $categories = $_POST['categories'];
 
     // Get uploaded file content
-    $file = $_FILES['food_photo']['tmp_name'];
-    $file_content = file_get_contents($file);
-    $file_content = base64_encode($file_content);
+    // $file = $_FILES['food_photo']['tmp_name'];
+    // $file_content = file_get_contents($file);
+    // $file_content = base64_encode($file_content);
 
     // Validate form fields
-    if (empty($file) || empty($food_name) || empty($your_name) || empty($time) || 
-        empty($price) || empty($servings) || empty($prep)
+    if (empty($food_name) || empty($your_name) || empty($time) || 
+        empty($price) || empty($servings) || empty($prep) || empty($categories)
     ) {
         header("Location:rec_add.php?error=All fields are required.");
         exit();
@@ -73,12 +75,51 @@ if (
             exit();
         } else {
 
+            
+if ($_FILES['food_photo']["error"] > 0) {
+    header("Location:rec_add.php?error=Something went wrong during file upload!");
+    exit();
+} else {
+    if (is_uploaded_file($_FILES['food_photo']['tmp_name'])) {
+        $file_name = $_FILES['food_photo']["name"];
+        $file_temp = $_FILES["food_photo"]["tmp_name"];
+        
+        if (!exif_imagetype($file_temp)) {
+            header("Location:rec_add.php?error=File is not a picture!");
+            exit();
+        }
+        
+        $ext_temp = explode(".", $file_name);
+        $extension = end($ext_temp);
+        $new_file_name = date("YmdHis") . ".$extension";
+        
+        $directory = "images";
+        $upload = "$directory/$new_file_name";
+        
+        if (!is_dir($directory)) {
+            mkdir($directory);
+        }
+        
+        if (!file_exists($upload)) {
+            if (move_uploaded_file($file_temp, $upload)) {
+                //success
+            } else {
+                header("Location:rec_add.php?error=Error moving the uploaded file.");
+                exit();
+            }
+        } else {
+            header("Location:rec_add.php?error=File with this name already exists!");
+            exit();
+        }
+    }
+}
+
             // Generate activation token
             $activationToken = generateActivationToken();
 
             // Insert receipt data into database
-            $sql2 = "INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings, activation_token) VALUES
-                ('$file_content', '$prep', '$price', '$food_name', '$your_name', '$time', '$servings', '$activationToken')";
+            $sql2 = "INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings, activation_token, categories) VALUES
+                ('$new_file_name', '$prep', '$price', '$food_name', '$your_name', '$time', '$servings', '$activationToken', '$categories')";
             $result2 = mysqli_query($conn, $sql2);
 
             if ($result2) {

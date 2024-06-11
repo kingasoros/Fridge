@@ -181,21 +181,41 @@ function addEntry() {
   }
 
   function showResult(str) {
-    if (str.length==0) {
-        document.getElementById("livesearch").innerHTML="";
-        document.getElementById("livesearch").style.border="0px";
+    if (str.length == 0) {
+        document.getElementById("livesearch").innerHTML = "";
+        document.getElementById("livesearch").style.border = "0px";
         return;
     }
-    var xmlhttp=new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function() {
-        if (this.readyState==4 && this.status==200) {
-        document.getElementById("livesearch").innerHTML=this.responseText;
-        document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("livesearch").innerHTML = this.responseText;
+            document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
         }
-    }
-    xmlhttp.open("GET","search.php?q="+str,true);
+    };
+    var currentPage = document.getElementById("currentPage").value;
+    xmlhttp.open("GET", "search.php?q=" + str + "&page=" + currentPage, true);
     xmlhttp.send();
 }
+
+
+function showResult2(str) {
+    if (str.length == 0) {
+        document.getElementById("livesearch2").innerHTML = "";
+        document.getElementById("livesearch2").style.border = "0px";
+        return;
+    }
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("livesearch2").innerHTML = this.responseText;
+            document.getElementById("livesearch2").style.border = "1px solid #A5ACB2";
+        }
+    }
+    xmlhttp.open("GET", "search_ing.php?q=" + str, true);
+    xmlhttp.send();
+}
+
 
 function addEntry() {
     var entry = "<div class='input-group in_ingrediens'><div class='form-group ing_in'><label for='ingredientName' class='form-label'>Ingredient</label><input type='text' id='ingredientName' name='ingredients[]' placeholder='Enter ingredient here...' class='form-control' required='required'/></div><div class='form-group ms-2 ing_in'><label for='quantity' class='form-label'>Quantity</label><input type='text' id='quantity' name='quantities[]' placeholder='Enter quantity here...' class='form-control' required='required'/></div><button type='button' class='btn btn-danger btn-sm remove_btn' onclick='removeEntry(this);'>-</button></div>";
@@ -207,3 +227,28 @@ function addEntry() {
   function removeEntry(btn) {
     btn.parentNode.parentNode.removeChild(btn.parentNode);
   }
+
+function findRecipes() {
+    var form = document.createElement('form');
+    form.method = 'post';
+    form.action = 'find_recipes.php';
+
+    var ingredients = document.querySelectorAll('#ingredientsList input[type="checkbox"]:checked');
+    ingredients.forEach(function(ingredient) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'ingredients[]';
+        input.value = ingredient.value;
+        form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+  
+
+
+
+

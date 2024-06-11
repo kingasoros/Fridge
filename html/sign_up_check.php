@@ -58,8 +58,47 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
             // Generate activation token
             $activationToken = generateActivationToken();
     
+            
+            if ($_FILES['user_photo']["error"] > 0) {
+                header("Location:sign_up.php?error=Something went wrong during file upload!");
+                exit();
+            } else {
+                if (is_uploaded_file($_FILES['user_photo']['tmp_name'])) {
+                    $file_name = $_FILES['user_photo']["name"];
+                    $file_temp = $_FILES["user_photo"]["tmp_name"];
+                    
+                    if (!exif_imagetype($file_temp)) {
+                        header("Location:sign_up.php?error=File is not a picture!");
+                        exit();
+                    }
+                    
+                    $ext_temp = explode(".", $file_name);
+                    $extension = end($ext_temp);
+                    $new_file_name = date("YmdHis") . ".$extension";
+                    
+                    $directory = "images";
+                    $upload = "$directory/$new_file_name";
+                    
+                    if (!is_dir($directory)) {
+                        mkdir($directory);
+                    }
+                    
+                    if (!file_exists($upload)) {
+                        if (move_uploaded_file($file_temp, $upload)) {
+                            //success
+                        } else {
+                            header("Location:sign_up.php?error=Error moving the uploaded file.");
+                            exit();
+                        }
+                    } else {
+                        header("Location:sign_up.php?error=File with this name already exists!");
+                        exit();
+                    }
+                }
+            }
+            
             // Insert user data into database
-            $sql2 = "INSERT INTO profil (password, last_name, phone_numb, user_name, first_name, email, activation_token) VALUES ('$pass', '$l_name', '$phone_numb','$uname','$f_name','$email','$activationToken')";
+            $sql2 = "INSERT INTO profil (password, last_name, phone_numb, user_name, first_name, email, activation_token,img) VALUES ('$pass', '$l_name', '$phone_numb','$uname','$f_name','$email','$activationToken','$new_file_name')";
             $result2 = mysqli_query($conn, $sql2);
     
             if ($result2) {
@@ -84,7 +123,7 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
         }
     }
     // Redirect if not all fields are provided
-    else {
+}else {
         header("Location:sign_up.php");
         exit();
     }

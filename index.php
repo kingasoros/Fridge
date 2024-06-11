@@ -41,8 +41,9 @@ session_start();
                 </ul>
               </li>
             </ul>
-            <form class="d-flex" action="html/search.php" method="get">
-                <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)">
+            <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="index"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
 
@@ -51,7 +52,7 @@ session_start();
           <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="images/me.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
+            <img src="html/images/me.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
             <strong><?php if(isset($_SESSION['user_name'])) { echo $_SESSION['user_name']; }?></strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -70,7 +71,7 @@ session_start();
     <div class="col-md-5 p-lg-5 mx-auto my-5 text-center">
         <h1 class="display-4 fw-normal">RECIPES</h1>
         <p class="lead fw-normal">Recipes based on what you have in your fridge.</p>
-        <a class="btn btn-outline-secondary" href="html/rec.html">Are you interested?</a>
+        <a class="btn btn-outline-secondary" href="html/rec.php">Are you interested?</a>
     </div>
     <div class="product-device shadow-sm d-none d-md-block"></div>
     <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
@@ -99,7 +100,7 @@ session_start();
         <p class="lead">You are at the right place!</p>
     </div>
     <div class="col-md-5">
-        <img class="start_img" src="images/fridge.jpg">
+        <img class="start_img" src="html/images/fridge.jpg">
     </div>
 </div>
 
@@ -112,7 +113,7 @@ session_start();
         <p class="lead">This is also possible.</p>
     </div>
     <div class="col-md-6 col-sm-12 order-md-1">
-        <img class="start_img" src="images/cook.jpg">
+        <img class="start_img" src="html/images/cook.jpg">
     </div>
 </div>
 
@@ -125,7 +126,7 @@ session_start();
         <p class="lead">Register and share your recipes with us!</p>
     </div>
     <div class="col-md-5">
-        <img class="start_img" src="images/recipes.jpg">
+        <img class="start_img" src="html/images/recipes.jpg">
     </div>
 </div>
 
