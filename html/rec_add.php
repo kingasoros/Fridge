@@ -94,6 +94,11 @@
                   <label for="yourName" class="form-label">Your name</label>
                   <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required> <!-- Input field for user name -->
                 </div>
+
+                <div class="col-sm-12">
+                  <label for="categories" class="form-label">Category</label>
+                  <input type="text" name="categories" class="form-control" id="categories" placeholder="Vegan"  required> <!-- Input field for user name -->
+                </div>
           
                 <div class="col-sm-12">
                   <label for="time" class="form-label">Cook time:</label>

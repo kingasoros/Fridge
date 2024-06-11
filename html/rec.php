@@ -3,21 +3,40 @@
 session_start();
 require "db_conn.php";
 
-// Query to fetch all required data from the receipt table
-$query = "SELECT food_name, time, receipt_id, img FROM receipt";
-$result = $conn->query($query);
+// // Query to fetch all required data from the receipt table
+// $query = "SELECT food_name, time, receipt_id, img FROM receipt";
+// $result = $conn->query($query);
 
-$food_names = array();
-$times = array();
-$ids = array();
-$imgs = array();
+// $food_names = array();
+// $times = array();
+// $ids = array();
+// $imgs = array();
+
+// if ($result->num_rows > 0) {
+//     while($row = $result->fetch_assoc()) {
+//         $food_names[] = $row['food_name'];
+//         $times[] = $row['time'];
+//         $ids[] = $row['receipt_id'];
+//         $imgs[] = $row['img'];
+//     }
+// }
+
+
+$receipts_query = "
+    SELECT categories, receipt_id, food_name, time
+    FROM receipt
+    ORDER BY categories, food_name";
+$result = $conn->query($receipts_query);
+
+$categories = [];
 
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $food_names[] = $row['food_name'];
-        $times[] = $row['time'];
-        $ids[] = $row['receipt_id'];
-        $imgs[] = $row['img'];
+    while ($row = $result->fetch_assoc()) {
+        $categories[$row['categories']][] = [
+            'receipt_id' => $row['receipt_id'],
+            'food_name' => $row['food_name'],
+            'time' => $row['time']
+        ];
     }
 }
 
@@ -87,18 +106,19 @@ if ($result->num_rows > 0) {
     </nav>
 
     <main>
-        <div class="album py-5 bg-body-tertiary">
-            <div class="container">
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <?php foreach ($categories as $category_name => $receipts) { ?>
+                <h2><?php echo htmlspecialchars($category_name); ?></h2>
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <?php foreach($food_names as $key => $food_name) {
-                        $time = $times[$key];
-                        $id = $ids[$key];
-                        $img = $imgs[$key];
-                        
+                    <?php foreach ($receipts as $receipt) { 
+                        $id = $receipt['receipt_id'];
+                        $food_name = $receipt['food_name'];
+                        $time = $receipt['time'];
                     ?>
                     <div class="col">
                         <div class="card shadow-sm">
-                         <!-- <?php echo '<img class="card_imgs" alt="Recipe Image" src="data:image/jpg;base64,'.base64_encode($img).'" />';?> -->
+                        
                             <img class="card_imgs" src="../images/spinach_pasta.webp" alt="Recipe Image">
                             <div class="card-body">
                                 <p class="card-text"><?php echo htmlspecialchars($food_name); ?></p>
@@ -124,9 +144,11 @@ if ($result->num_rows > 0) {
                     </div>
                     <?php } ?>
                 </div>
-            </div>
+            <?php } ?>
         </div>
-    </main>
+    </div>
+</main>
+
 
     <footer class="text-body-secondary py-5">
         <div class="container">

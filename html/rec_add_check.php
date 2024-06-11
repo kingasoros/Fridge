@@ -25,7 +25,8 @@ if (
     isset($_POST['food_name']) && isset($_POST['your_name']) &&
     isset($_POST['time']) && isset($_POST['price']) &&
     isset($_POST['servings']) && isset($_POST['prep']) &&
-    isset($_POST['ingredients']) && isset($_POST['quantities'])
+    isset($_POST['ingredients']) && isset($_POST['quantities']) && 
+    isset($_POST['categories'])
 ) {
 
     // Function to validate input data
@@ -45,6 +46,7 @@ if (
     $prep = validate($_POST['prep']);
     $ingredients = $_POST['ingredients'];
     $quantities = $_POST['quantities'];
+    $categories = $_POST['categories'];
 
     // Get uploaded file content
     $file = $_FILES['food_photo']['tmp_name'];
@@ -53,7 +55,7 @@ if (
 
     // Validate form fields
     if (empty($file) || empty($food_name) || empty($your_name) || empty($time) || 
-        empty($price) || empty($servings) || empty($prep)
+        empty($price) || empty($servings) || empty($prep) || empty($categories)
     ) {
         header("Location:rec_add.php?error=All fields are required.");
         exit();
@@ -77,8 +79,8 @@ if (
             $activationToken = generateActivationToken();
 
             // Insert receipt data into database
-            $sql2 = "INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings, activation_token) VALUES
-                ('$file_content', '$prep', '$price', '$food_name', '$your_name', '$time', '$servings', '$activationToken')";
+            $sql2 = "INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings, activation_token, categories) VALUES
+                ('$file_content', '$prep', '$price', '$food_name', '$your_name', '$time', '$servings', '$activationToken', '$categories')";
             $result2 = mysqli_query($conn, $sql2);
 
             if ($result2) {
