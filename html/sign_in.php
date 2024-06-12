@@ -67,11 +67,16 @@ session_start();
 <div class="container">
     <main class="cont_3">
         <h4 class="mb-3">SIGN IN</h4>
-        <form class="needs-validation" novalidate action="web.php" method="post">
+        <form class="needs-validation" novalidate action="login.php" method="post">
             <div class="row g-3">
                 <div class="col-12">
+                    <!-- Display error message if present -->
                     <?php if(isset($_GET['error'])) {?>
                         <p class="error"><?php echo $_GET['error']; ?></p>
+                    <?php } ?>    
+                    <!-- Display success message if present -->
+                    <?php if(isset($_GET['success'])) {?>
+                        <p class="success"><?php echo $_GET['success']; ?></p>
                     <?php } ?>
                     <label for="username" class="form-label">Username</label>
                     <div class="input-group has-validation">
@@ -89,7 +94,7 @@ session_start();
             </div>
         </form>
 
-        <a href="#" id="fl">Have you forgotten your password?</a>
+        <!-- <a href="#" id="fl">Have you forgotten your password?</a>
         
           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" name="forget" id="forgetForm" style="display: none;">
               <div class="pt-3">
@@ -119,7 +124,7 @@ session_start();
               e.preventDefault();
           });
       }
-      </script>
+      </script> -->
       
     </main>
 </div>

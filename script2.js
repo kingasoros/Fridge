@@ -4,18 +4,19 @@ let ingredients = [];
 
 // Function to display ingredients
 function displayIngredients() {
-        let ingredientsList = document.getElementById("ingredientsList");
-        ingredientsList.innerHTML = "";
-        ingredients.forEach((ingredient, index) => {
-            let div = document.createElement("div");
-            div.className = "ingredient";
-            div.innerHTML = `
-                <input type="checkbox" id="ingredient${index}" name="ingredient${index}" value="${ingredient.name}">
-                <label for="ingredient${index}">${ingredient.name} - ${ingredient.quantity}</label>
-            `;
-            ingredientsList.appendChild(div);
-        });
-    }
+    let ingredientsList = document.getElementById("ingredientsList");
+    ingredientsList.innerHTML = "";
+    ingredients.forEach((ingredient, index) => {
+        let div = document.createElement("div");
+        div.className = "ingredient";
+        div.innerHTML = `
+            <input type="checkbox" id="ingredient${index}" name="ingredient${index}" value="${ingredient.name}">
+            <label for="ingredient${index}">${ingredient.name} - ${ingredient.quantity}</label>
+        `;
+        ingredientsList.appendChild(div);
+    });
+}
+
 
 // Function to search ingredients
 function searchIngredients() {

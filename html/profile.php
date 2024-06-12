@@ -4,7 +4,9 @@ session_start();
 
 if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
    isset($_SESSION['user_name']) && isset($_SESSION['first_name']) &&
-   isset($_SESSION['email'])){ ?>
+   isset($_SESSION['email'])){
+    
+?>
 
 <!DOCTYPE html>
 <html>
@@ -139,22 +141,39 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
         <!-- Carousel for liked recipes -->
         <ul class="carousel"> 
             <!-- Individual recipe cards -->
-            <li class="card"> 
-                <!-- Image and details of the recipe -->
-                <div class="img"><img src="../images/spinach_pasta.webp" alt="" draggable="false"> </div> 
-                <div class="card-body">
-                    <p class="card-text">Easy Slow-Cooker Sun-Dried Tomato & Spinach Pasta.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <!-- Buttons for viewing and editing the recipe -->
-                        <div class="btn-group">
-                            <a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                        <!-- Estimated cooking time -->
-                        <small class="text-body-secondary">9 mins</small>
-                    </div>
-                </div> 
-            </li> 
+            <?php
+            require "db_conn.php";
+
+            // Lekérdezés végrehajtása
+            $query = "SELECT * FROM `receipt` WHERE likes = 1";
+            $result = $conn->query($query);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $food_name = $row['food_name'];
+                    $time = $row['time'];
+                    $img = $row['img'];
+
+                    // HTML kód módosítása a recept adataival
+                    echo '<li class="card">';
+                    echo '<div class="img"><img src="images/' . $img .'" alt="" draggable="false"> </div>';
+                    echo '<div class="card-body">';
+                    echo '<p class="card-text">' . $food_name . '</p>';
+                    echo '<div class="d-flex justify-content-between align-items-center">';
+                    echo '<div class="btn-group">';
+                    echo '<a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>';
+                    echo '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>';
+                    echo '</div>';
+                    echo '<small class="text-body-secondary">' . $time . '</small>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</li>';
+                }
+            } else {
+                echo "No liked recipes found.";
+            }
+            $conn->close();
+            ?>
             <!-- Repeat the above structure for each recipe card -->
         </ul> 
         <!-- Navigation arrows -->
@@ -165,6 +184,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
         </i> 
     </div>
 </div>
+
 
     <script src="../ajax.js"></script>
 </body>

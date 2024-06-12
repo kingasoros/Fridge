@@ -174,7 +174,7 @@ if (empty($food_name) || empty($your_name) || empty($time) ||
             $admin_email = 'kingasoros@gmail.com'; // Specify admin email here
             sendEmail($admin_email, 'Confirmation of receipt', $message, true);
 
-            header("Location: rec_add.php?success=Everything is okay.");
+            header("Location: rec_add.php?success=The confirmation email is sent to admin.");
             exit();
         } else {
             header("Location: rec_add.php?error=Unknown error occurred while inserting receipt: " . mysqli_error($conn));

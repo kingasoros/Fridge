@@ -1,68 +1,25 @@
 <?php
-session_start();
+require "db_conn.php";
 
-include "db_conn.php"; // Includes database connection.
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['id'];
+    $action = $_POST['action'];
 
-$ingredientsArray = json_decode($_POST['ingredientsArray']); // Decodes JSON data.
-
-if(isset ($_POST['food_name']) && isset ($_POST['your_name']) && 
-isset ($_POST['time']) && isset ($_POST['price']) &&
-isset ($_POST['servings']) && isset ($_POST['prep'])){
-
-    function validate($data){ // Function to sanitize input data.
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
+    if ($action == 'activate') {
+        $activated = 1;
+    } else if ($action == 'reject') {
+        $activated = 0;
     }
 
-    // Validation of form fields.
-    $food_name = validate($_POST['food_name']);
-    $your_name = validate($_POST['your_name']);
-    $time = validate($_POST['time']);
-    $price = validate($_POST['price']); 
-    $servings = validate($_POST['servings']);
-    $prep = validate($_POST['prep']);
+    $stmt = $conn->prepare("UPDATE `profil` SET `activated` = $activated WHERE `profil_id` = $id");
 
-    if(empty($food_name) || empty($your_name) || empty($time) || empty($price) || empty($servings) || empty($prep)){
-        header("Location:adm.php?error=All fields are required."); // Redirects if any field is empty.
-        exit();
+    if ($stmt->execute()) {
+        header("Location: adm.php?success=Status updated successfully.");
     } else {
-
-        $sql="SELECT * FROM receipt WHERE food_name = '$food_name' "; // Checks if receipt name already exists.
-        $result = mysqli_query($conn, $sql);
-
-        if(mysqli_num_rows($result) >0){
-            header("Location:adm.php?error=The receipt name is taken try another."); // Redirects if receipt name is already taken.
-            exit();
-        } else {
-
-            // Inserts new receipt into database.
-            $sql2="INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings) VALUES
-                ('$food_photo', '$prep', '$price','$food_name','$your_name','$time','$servings')";
-
-            $result2 = mysqli_query($conn, $sql2);
-
-            if($result2){
-                $receipt_id = mysqli_insert_id($conn);
-
-                // Inserts ingredients of the receipt into database.
-                foreach($ingredientsArray as $ingredient) {
-                    $ingredient_id = $ingredient->ingredient_id;
-                    $sql3 = "INSERT INTO receipt_ingredient (receipt_id, ingredient_id) VALUES ('$receipt_id', '$ingredient_id')";
-                    mysqli_query($conn, $sql3);
-                }
-
-                header("Location:adm.php?success=Your receipt has been created successfully."); // Redirects on successful creation.
-                exit();
-            } else {
-                header("Location:adm.php?error=Unknown error occurred."); // Redirects if unknown error occurs.
-                exit();
-            }
-        }
+        header("Location: adm.php?error=Failed to update status.");
     }
-}else {
-    header("Location:adm.php?error=Must be pushed out."); // Redirects if conditions not met.
-    exit();
+
+    $stmt->close();
+    $conn->close();
 }
 ?>

@@ -2,13 +2,18 @@
 
 session_start();
 
+require "db_conn.php";
+
+$query="SELECT `profil_id`, `last_name`, `first_name`, `email`, `activated` FROM `profil`";
+
+$result = $conn->query($query);
 
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ADMINISTRATION</title>
+        <title>FRIDGE</title>
         <meta charset="UTF-8">
         <meta name="description" content="This website was created for a school.">
         <meta name="author" content="Kinga">
@@ -17,7 +22,6 @@ session_start();
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../style.css">
-        
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,13 +48,13 @@ session_start();
               </li>
             </ul>
             <form class="d-flex" action="search_ing.php" method="get">
-                <input type="text" id="searchInput" onkeyup="showResult2(this.value)" placeholder="Search...">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
                 <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
-                <div id="livesearch2"></div>
+                <div id="livesearch"></div>
             </form>
 
             <script src=../script2.js></script>
-            
+
           <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,101 +70,60 @@ session_start();
           </ul>
         </div>
       </div>
-    </div>
-      </nav>
+      </div>
+    </nav>
       <div class="container">
         <main class="cont_2">
-          <h4 class="mb-3">ADDING RECIPES</h4>
-            <form class="needs-validation" action="adm_check.php" novalidate method="post">
+          <!-- Display error message if present -->
+        <?php if(isset($_GET['error'])) {?>
+            <p class="error"><?php echo $_GET['error']; ?></p>
+        <?php } ?>    
+        <!-- Display success message if present -->
+        <?php if(isset($_GET['success'])) {?>
+            <p class="success"><?php echo $_GET['success']; ?></p>
+        <?php } ?>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Email</th>
+          <th scope="col">Status</th>
+          <th scope="col">Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php if ($result->num_rows > 0) {
+    // Eredmények beolvasása
+    $rowNumber = 1;
+    while ($row = $result->fetch_assoc()) {
+        $id = $row['profil_id'];
+        $last_name = $row['last_name'];
+        $first_name = $row['first_name'];
+        $email = $row['email'];
+        $activated = $row['activated'] == 1 ? "active" : "reject";
 
-              <?php if(isset($_GET['error'])) {?>
-                <p class="error"><?php echo $_GET['error']; ?></p>
-               <?php } ?>    
-    
-               <?php if(isset($_GET['success'])) {?>
-                   <p class="success"><?php echo $_GET['success']; ?></p>
-               <?php } ?>
-              <div class="row g-3">
-                <div class="col-sm-12">
-                  <label for="foodName" class="form-label">Food name</label>
-                  <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" required>
-                </div>
+        // Táblázat sorainak kiírása
+        echo '<tr>';
+        echo '<th scope="row">' . $rowNumber . '</th>';
+        echo '<td>' . htmlspecialchars($first_name) . '</td>';
+        echo '<td>' . htmlspecialchars($last_name) . '</td>';
+        echo '<td>' . htmlspecialchars($email) . '</td>';
+        echo '<td>' . htmlspecialchars($activated) . '</td>';
+        echo '<td>
+                <form action="adm_check.php" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="' . htmlspecialchars($id) . '">
+                    <button type="submit" name="action" value="activate" class="btn btn-warning">Activate</button>
+                    <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                </form>
+              </td>';
+        echo '</tr>';
 
-                <div class="col-sm-12">
-                  <label for="yourName" class="form-label">Your name</label>
-                  <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required>
-                </div>
-          
-                <div class="col-sm-12">
-                  <label for="time" class="form-label">Cook time:</label>
-                  <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" required>
-                </div>
-
-                <div class="col-sm-12">
-                  <label for="price" class="form-label">Relative price (in dinar):</label>
-                  <input type="text" name="price" class="form-control" id="price" placeholder="1500" required>
-                </div>
-
-                <div class="col-sm-12">
-                  <label for="serv" class="form-label">Serves:</label>
-                  <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" required>
-                </div>
-
-                <div class="input-group mb-3">
-                  <label for="food_photo" class="form-label col-sm-12">Upload a picture of the food:</label>
-                  <input type="file" name="food_photo" class="form-control" id="food_photo">
-                </div>
-
-                <div class="input-group mb-3">
-                <label for="ingredients" class="form-label col-sm-12">Ingredients:</label>
-                <button class="btn btn-outline-secondary butt_2" type="button" id="button-addon1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                  </svg>
-                </button>
-                <input type="text" name="ingredients_rec" class="form-control" id="ingredients" placeholder="Add an ingredient." aria-label="Example text with button addon" aria-describedby="button-addon1">
-                </div>
-                <div id="ingredientsList"></div>
-
-
-                <script>
-                  let ingredientsArray = [];
-
-                  document.getElementById('button-addon1').addEventListener('click', function() {
-                  let ingredient = document.getElementById('ingredients').value;
-
-                  ingredientsArray.push(ingredient);
-
-                  let ingredientsListContainer = document.getElementById('ingredientsList');
-
-                  let ingredientItem = document.createElement('div');
-                  ingredientItem.textContent = ingredient;
-
-                  ingredientsListContainer.appendChild(ingredientItem);
-});
-                </script>
-
-                <div id="ingredientsList"></div>
-                
-                <div class="form-floating">
-                  <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
-                  <label for="floatingTextarea2">Preparation</label>
-                </div>
-                <input type="hidden" name="ingredientsArray" id="ingredientsArray">
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button>
-              </div>
-            </form>
-            <hr>
-            <h4 class="mb-3">DELETING RECIPES</h4>
-            <form class="needs-validation" action="del_rec.php" novalidate method="post">
-              <div class="row g-3">
-                <div class="col-sm-12">
-                  <label for="food_name" class="form-label">Food Name<span class="del_com">(The exact name of the food to be returned must be entered.)</span></label>
-                  <input type="text" name="food_name" class="form-control" id="food_name" placeholder="" required>
-                </div>
-                <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Delete</button>
-              </div>
-            </form>  
+        $rowNumber++;
+    }} ?>
+      </tbody>
+        </table>
         </main>
     </body>
 </html>
