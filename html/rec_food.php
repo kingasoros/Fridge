@@ -17,6 +17,7 @@ $price_query = "SELECT price FROM receipt WHERE receipt_id = '$receipt_id'";
 $paragraph_query = "SELECT paragraph FROM receipt WHERE receipt_id = '$receipt_id'";
 $name_query = "SELECT your_name FROM receipt WHERE receipt_id = '$receipt_id'";
 $servings_query = "SELECT servings FROM receipt WHERE receipt_id = '$receipt_id'";
+$img_query = "SELECT img FROM receipt WHERE receipt_id = '$receipt_id'";
 $ingrediens_query = "SELECT i.name, ri.quantity FROM ingrediens i
                      JOIN receipt_ingredient ri ON i.ingrediens_id = ri.ingrediens_id
                      WHERE ri.receipt_id = '$receipt_id'";
@@ -28,6 +29,7 @@ $price_result = $conn->query($price_query);
 $paragraph_result = $conn->query($paragraph_query);
 $name_result = $conn->query($name_query);
 $servings_result = $conn->query($servings_query);
+$img_result = $conn->query($img_query);
 $ingrediens_result = $conn->query($ingrediens_query);
 
 // Adatok feldolgozása
@@ -59,6 +61,11 @@ if ($name_result->num_rows > 0) {
 if ($servings_result->num_rows > 0) {
   $row = $servings_result->fetch_assoc();
   $servings = $row['servings'];
+}
+
+if ($img_result->num_rows > 0) {
+  $row = $img_result->fetch_assoc();
+  $img = $row['img'];
 }
 
 if ($ingrediens_result->num_rows > 0) {
@@ -119,7 +126,7 @@ if ($ingrediens_result->num_rows > 0) {
         <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../images/me.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
+          <img src="images/<?php if (isset($_SESSION['img'])) { echo htmlspecialchars($_SESSION['img']); } ?>" alt="" width="32" height="32" class="rounded-circle me-2">
             <strong><?php if(isset($_SESSION['user_name'])) { echo $_SESSION['user_name']; }?></strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -138,7 +145,7 @@ if ($ingrediens_result->num_rows > 0) {
     <div class="row">
       <div class="col order-md-6 receipt_body">
         <h1><?php echo $food_name; ?></h1> <!-- Displaying the name of the recipe -->
-        <img class="img_2" src="../images/carrot_cake.webp"> <!-- Displaying the image of the recipe -->
+        <img class="img_2" src="images/<?php echo $img?>"> <!-- Displaying the image of the recipe -->
         <div class="col order-md-6">
           <p>Cook time: <?php echo $time; ?> Minutes</p> <!-- Displaying the cooking time -->
           <p>Serves: <?php echo $servings; ?> serves</p> <!-- Displaying the number of servings -->

@@ -67,7 +67,7 @@ include "db_conn.php";
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
                 data-bs-toggle="dropdown" aria-expanded="false">
                     <!-- User image and name -->
-                    <img src="../images/me.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="images/<?php if (isset($_SESSION['img'])) { echo htmlspecialchars($_SESSION['img']); } ?>" alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong><?php if(isset($_SESSION['user_name'])) { echo $_SESSION['user_name']; }?></strong>
                 </a>
                 <!-- Dropdown menu -->

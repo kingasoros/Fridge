@@ -45,6 +45,7 @@ if(isset ($_POST['uname']) && isset ($_POST['pass'])){
                 $_SESSION['user_name'] = $row['user_name'];
                 $_SESSION['first_name'] = $row['first_name'];
                 $_SESSION['email'] = $row['email'];
+                $_SESSION['img'] = $row['img'];
                 // Redirects to profile page.
                 header("Location:profile.php");
                 exit();  

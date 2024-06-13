@@ -106,11 +106,13 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
                 $activationLink = 'http://localhost/fridge_projekt/html/activate.php?token=' . $activationToken;
                 $message = "
                     <p>Please confirm this registration:</p>
+                    <p>{$uname} email: {$email}</p>
                     <p>
-                        <a href='$activationLink'>Elfogadás</a>
-                        <a href='http://localhost/fridge_projekt/html/rejection.php?token=$activationToken&action=reject'>Elutasítás</a>
+                        <a href='{$activationLink}'>Elfogadás</a>
+                        <a href='http://localhost/fridge_projekt/html/rejection.php?token={$activationToken}&action=reject'>Elutasítás</a>
                     </p>
                 ";
+
                 sendEmail($email, 'Confirmation of registration', $message, true);
                 // Redirect if successful registration
                 header("Location:sign_up.php?success=Your account has been created succesfully.");

@@ -58,7 +58,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
                     data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../images/me.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="images/<?php if (isset($_SESSION['img'])) { echo htmlspecialchars($_SESSION['img']); } ?>" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong><?php if(isset($_SESSION['user_name'])) { echo $_SESSION['user_name']; }?></strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -78,7 +78,8 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
     <div class="row profile_things">
         <!-- Column for profile image -->
         <div class="col-md-6">
-            <img class="profile_img" src="../images/me.jpg">
+            
+            <img class="profile_img" src="images/<?php if (isset($_SESSION['img'])) { echo htmlspecialchars($_SESSION['img']); } ?>">
         </div>
         <!-- Column for profile data -->
         <div class="col-md-6 datas">
@@ -120,7 +121,7 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                 <li class="list-group-item">
                     <div class="d-grid gap-2">
                         <button class="btn btn-primary btn_edit" id="submit" type="submit">Edit</button>
-                        <a class="btn btn-primary btn_edit" href="logout.php" type="button">LOGOUT</a>
+                        <a class="btn btn-primary btn_edit" href="sign_out.php" type="button">LOGOUT</a>
                     </div>
                 </li>
             </ul>
