@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 require "db_conn.php";
 
 $ingrediens_names = [];
@@ -110,18 +110,34 @@ if ($ingrediens_result->num_rows > 0) {
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="sign_in.php">SIGN IN</a></li>
               <li><a class="dropdown-item" href="sign_up.php">REGISTRATION</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+              <?php if (isset($_SESSION['email'])) {
+                      $email = $_SESSION['email'];
+
+                      $sql = "SELECT admin FROM profil WHERE email = '$email'";
+                      $result = mysqli_query($conn, $sql);
+
+                      if ($result && mysqli_num_rows($result) > 0) {
+                          $row = mysqli_fetch_assoc($result);
+
+                          if ($row['admin'] == 1) { ?>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+                  <?php }}}?>
             </ul>
           </li>
         </ul>
+
+        <script src=../script2.js></script>
+
+        <?php  if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
+                isset($_SESSION['user_name']) && isset($_SESSION['first_name']) &&
+                isset($_SESSION['email'])){ ?>
+
         <form class="d-flex" action="search_ing.php" method="get">
                 <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
                 <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
                 <div id="livesearch"></div>
             </form>
-
-            <script src=../script2.js></script>
             
         <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
@@ -137,6 +153,7 @@ if ($ingrediens_result->num_rows > 0) {
             <li><a class="dropdown-item" href="sign_out.php">Sign out</a></li>
           </ul>
         </div>
+        <?php } ?>
       </div>
     </div>
   </nav>

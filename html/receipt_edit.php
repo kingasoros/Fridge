@@ -1,6 +1,7 @@
 <?php
 
 require "db_conn.php";
+session_start();
 
 $ingrediens_names = [];
 $quantities = [];
@@ -102,16 +103,35 @@ if ($servings_result->num_rows > 0) {
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="sign_in.php">SIGN IN</a></li>
                   <li><a class="dropdown-item" href="sign_up.php">REGISTRATION</a></li>
+                  <?php if (isset($_SESSION['email'])) {
+                      $email = $_SESSION['email'];
+
+                      $sql = "SELECT admin FROM profil WHERE email = '$email'";
+                      $result = mysqli_query($conn, $sql);
+
+                      if ($result && mysqli_num_rows($result) > 0) {
+                          $row = mysqli_fetch_assoc($result);
+
+                          if ($row['admin'] == 1) { ?>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+                  <?php }}}?>
                 </ul>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success butt_1" type="submit">Search</button>
+            <script src=../script2.js></script>
+
+        <?php  if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
+                isset($_SESSION['user_name']) && isset($_SESSION['first_name']) &&
+                isset($_SESSION['email'])){ ?>
+
+        <form class="d-flex" action="search_ing.php" method="get">
+                <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
+                <input type="hidden" id="currentPage" value="current_page_name"> <!-- Add this line -->
+                <div id="livesearch"></div>
             </form>
-          <div class="dropdown">
+            
+        <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" 
           data-bs-toggle="dropdown" aria-expanded="false">
           <img src="images/<?php if (isset($_SESSION['img'])) { echo htmlspecialchars($_SESSION['img']); } ?>" alt="" width="32" height="32" class="rounded-circle me-2">
@@ -120,11 +140,12 @@ if ($servings_result->num_rows > 0) {
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="fridge.php">Fridge</a></li>
             <li><a class="dropdown-item" href="rec_add.php">Adding recipes</a></li>
-            <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="sign_out.php">Sign out</a></li>
           </ul>
         </div>
+        <?php } ?>
       </div>
       </div>
     </nav>

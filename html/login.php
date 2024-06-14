@@ -4,7 +4,7 @@ session_start();
 include "db_conn.php";
 
 
-if(isset ($_POST['uname']) && isset ($_POST['pass'])){
+if(isset ($_POST['email']) && isset ($_POST['pass'])){
     
     // Function to sanitize input data.
     function validate($data){
@@ -15,12 +15,12 @@ if(isset ($_POST['uname']) && isset ($_POST['pass'])){
     }
 
     // Sanitizes username and password.
-    $uname = validate($_POST['uname']);
+    $email = validate($_POST['email']);
     $pass = validate($_POST['pass']);
 
     // Checks if username is empty.
-    if(empty($uname)){
-        header("Location:sign_in.php?error=User Name is required."); // Redirects with error if username is empty.
+    if(empty($email)){
+        header("Location:sign_in.php?error=Email is required."); // Redirects with error if username is empty.
         exit();
     } else if(empty($pass)){ // Checks if password is empty.
         header("Location:sign_in.php?error=Password is required."); // Redirects with error if password is empty.
@@ -30,14 +30,14 @@ if(isset ($_POST['uname']) && isset ($_POST['pass'])){
         $pass = md5($pass); // Encrypts the password.
 
         // SQL query to check username and password in the database.
-        $sql="SELECT* FROM profil WHERE user_name = '$uname' AND password='$pass'";
+        $sql="SELECT* FROM profil WHERE email = '$email' AND password='$pass'";
         $result = mysqli_query($conn, $sql);
 
         // Checks if there is exactly one row returned.
         if(mysqli_num_rows($result) === 1){
             $row = mysqli_fetch_assoc($result);
             // Checks if username and password match.
-            if($row['user_name'] === $uname && $row['password'] === $pass){
+            if($row['email'] === $email && $row['password'] === $pass){
                 // Sets session variables.
                 $_SESSION['profil_id'] = $row['profil_id'];
                 $_SESSION['last_name'] = $row['last_name'];
@@ -51,12 +51,12 @@ if(isset ($_POST['uname']) && isset ($_POST['pass'])){
                 exit();  
             } else {
                 // Redirects with error for incorrect username or password.
-                header("Location:sign_in.php?error=Incorrect User Name or Password.");
+                header("Location:sign_in.php?error=Incorrect Email or Password.");
                 exit();
             }  
         } else {
             // Redirects with error for incorrect username or password.
-            header("Location:sign_in.php?error=Incorrect User Name or Password.");
+            header("Location:sign_in.php?error=Incorrect Email or Password.");
             exit();
         }
     }
@@ -64,4 +64,3 @@ if(isset ($_POST['uname']) && isset ($_POST['pass'])){
     header("Location:sign_in.php"); // Redirects to sign in page if username and password are not set.
     exit();
 }
-

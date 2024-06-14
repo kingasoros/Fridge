@@ -22,7 +22,7 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
     
     function validate($data) {
         $data = trim($data);
-        $data = stripcslashes($data);
+        $data = stripslashes($data); // Note: `stripcslashes` was corrected to `stripslashes`
         $data = htmlspecialchars($data);
         return $data;
     }
@@ -98,77 +98,79 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
             }
             
             // Insert user data into database
-            $sql2 = "INSERT INTO profil (password, last_name, phone_numb, user_name, first_name, email, activation_token,img) VALUES ('$pass', '$l_name', '$phone_numb','$uname','$f_name','$email','$activationToken','$new_file_name')";
+            $sql2 = "INSERT INTO profil (password, last_name, phone_numb, user_name, first_name, email, activation_token, img) VALUES ('$pass', '$l_name', '$phone_numb','$uname','$f_name','$email','$activationToken','$new_file_name')";
             $result2 = mysqli_query($conn, $sql2);
     
             if ($result2) {
                 // Send activation email
                 $activationLink = 'http://localhost/fridge_projekt/html/activate.php?token=' . $activationToken;
+                $activationAdminLink = 'http://localhost/fridge_projekt/html/activate.php?token=' . $activationToken . '&admin=1';
                 $message = "
                     <p>Please confirm this registration:</p>
-                    <p>{$uname} email: {$email}</p>
+                    <p>{$uname} email: {$email}</p><br>
                     <p>
-                        <a href='{$activationLink}'>Elfogadás</a>
+                        <a href='{$activationLink}'>Elfogadás</a><br>
+                        <a href='{$activationAdminLink}'>Elfogadás(admin)</a><br>
                         <a href='http://localhost/fridge_projekt/html/rejection.php?token={$activationToken}&action=reject'>Elutasítás</a>
                     </p>
                 ";
 
                 sendEmail($email, 'Confirmation of registration', $message, true);
                 // Redirect if successful registration
-                header("Location:sign_up.php?success=Your account has been created succesfully.");
+                header("Location:sign_up.php?success=Your account has been created successfully.");
                 exit();
             } else {
                 // Redirect if unknown error occurred
-                header("Location:sign_up.php?error=Unknown error occured.");
+                header("Location:sign_up.php?error=Unknown error occurred.");
                 exit();
             } 
         }
     }
     // Redirect if not all fields are provided
-}else {
-        header("Location:sign_up.php");
+} else {
+    header("Location:sign_up.php");
+    exit();
+}
+    
+// Function to send activation email
+function sendEmail($email, $subject, $message, $message_format) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // SMTP configuration
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      
+        $mail->isSMTP();                                            
+        $mail->Host = 'mail.gt.stud.vts.su.ac.rs';                    
+        $mail->SMTPAuth = true;                                   
+        $mail->Username = 'gt';                     
+        $mail->Password = 'Z37CtWKv0E6M0XM';                               
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;                                    
+    
+        // Sender and recipient
+        $mail->setFrom('gt@gt.stud.vts.su.ac.rs', 'Mailer');
+        $mail->addAddress('kingasoros@gmail.com', 'User'); 
+
+        // Message format
+        if ($message_format) {
+            $mail->isHTML(true);                                    
+            $mail->Subject = $subject;                      
+            $mail->Body = $message;                            
+        } else {
+            $mail->Subject = $subject;                      
+            $mail->Body = $message;                            
+        }
+
+        // Send email
+        $mail->send();
+        // Redirect if email sent successfully
+        header("Location:sign_up.php?success=Confirmation Message is sent for admin successfully!");
+        exit();
+    } catch (Exception $e) {
+        // Redirect if an error occurred while sending email
+        header("Location:sign_up.php?error=Something is wrong.");
         exit();
     }
-    
-    // Function to send activation email
-    function sendEmail($email, $subject, $message, $message_format) {
-        $mail = new PHPMailer(true);
-    
-        try {
-            // SMTP configuration
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      
-            $mail->isSMTP();                                            
-            $mail->Host = 'mail.gt.stud.vts.su.ac.rs';                    
-            $mail->SMTPAuth = true;                                   
-            $mail->Username = 'gt';                     
-            $mail->Password = 'Z37CtWKv0E6M0XM';                               
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;                                    
-    
-            // Sender and recipient
-            $mail->setFrom('gt@gt.stud.vts.su.ac.rs', 'Mailer');
-            $mail->addAddress('kingasoros@gmail.com', 'User'); 
-    
-            // Message format
-            if ($message_format) {
-                $mail->isHTML(true);                                    
-                $mail->Subject = $subject;                      
-                $mail->Body = $message;                            
-            } else {
-                $mail->Subject = $subject;                      
-                $mail->Body = $message;                            
-            }
-    
-            // Send email
-            $mail->send();
-            // Redirect if email sent successfully
-            header("Location:sign_up.php?success=Confirmation Message is sent for admin succesfully!");
-            exit();
-        } catch (Exception $e) {
-            // Redirect if an error occurred while sending email
-            header("Location:sign_up.php?error=Something is wrong.");
-            exit();
-        }
-    }
-    
+}
+
 ?>

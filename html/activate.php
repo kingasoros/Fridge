@@ -4,6 +4,7 @@ require 'db_conn.php';
 
 if (isset($_GET['token'])) { // Checks if 'token' parameter is set.
     $token = $_GET['token']; // Retrieves the token from the URL.
+    $is_admin = isset($_GET['admin']) ? 1 : 0; // Checks if 'admin' parameter is set.
 
     $sql = "SELECT * FROM profil WHERE activation_token = '$token'"; // SQL query to find a row with the provided token.
 
@@ -13,7 +14,7 @@ if (isset($_GET['token'])) { // Checks if 'token' parameter is set.
 
         $row = mysqli_fetch_assoc($result); // Fetches the row.
         $userId = $row['profil_id']; // Retrieves user ID.
-        $sqlUpdate = "UPDATE profil SET activated = 1 WHERE profil_id = $userId "; // Updates activation status.
+        $sqlUpdate = "UPDATE profil SET activated = 1, admin = $is_admin WHERE profil_id = $userId "; // Updates activation status and admin status.
 
         if (mysqli_query($conn, $sqlUpdate)) { // Executes the update query.
 
