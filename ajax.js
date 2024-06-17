@@ -135,3 +135,4 @@ function hideErrorMessage(element) {
         errorSpan.textContent = '';
     }
 }
+

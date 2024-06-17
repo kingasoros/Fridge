@@ -3,25 +3,6 @@
 session_start();
 require "db_conn.php";
 
-// // Query to fetch all required data from the receipt table
-// $query = "SELECT food_name, time, receipt_id, img FROM receipt";
-// $result = $conn->query($query);
-
-// $food_names = array();
-// $times = array();
-// $ids = array();
-// $imgs = array();
-
-// if ($result->num_rows > 0) {
-//     while($row = $result->fetch_assoc()) {
-//         $food_names[] = $row['food_name'];
-//         $times[] = $row['time'];
-//         $ids[] = $row['receipt_id'];
-//         $imgs[] = $row['img'];
-//     }
-// }
-
-
 $receipts_query = "
     SELECT categories, receipt_id, food_name, time, img
     FROM receipt
@@ -75,7 +56,8 @@ if ($result->num_rows > 0) {
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="sign_in.php">SIGN IN</a></li>
                   <li><a class="dropdown-item" href="sign_up.php">REGISTRATION</a></li>
-                  <?php if (isset($_SESSION['email'])) {
+                  <?php 
+                  if (isset($_SESSION['email'])) {
                       $email = $_SESSION['email'];
 
                       $sql = "SELECT admin FROM profil WHERE email = '$email'";
@@ -85,18 +67,21 @@ if ($result->num_rows > 0) {
                           $row = mysqli_fetch_assoc($result);
 
                           if ($row['admin'] == 1) { ?>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
-                  <?php }}}?>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+                          <?php }
+                      }
+                  }
+                  ?>
                 </ul>
               </li>
             </ul>
 
             <script src=../script2.js></script>
 
-            <?php  if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
+            <?php if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
                 isset($_SESSION['user_name']) && isset($_SESSION['first_name']) &&
-                isset($_SESSION['email'])){ ?>
+                isset($_SESSION['email'])) { ?>
 
             <form class="d-flex" action="search_ing.php" method="get">
                 <input type="text" id="searchInput" onkeyup="showResult(this.value)" placeholder="Search...">
@@ -127,7 +112,17 @@ if ($result->num_rows > 0) {
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <?php foreach ($categories as $category_name => $receipts) { ?>
-                <h2><?php echo htmlspecialchars($category_name); ?></h2>
+                <h2 contenteditable="true"><?php echo htmlspecialchars($category_name); ?></h2>
+                    <form id="editCategoryForm" style="display:inline;">
+                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($category_name); ?>">
+                        <button type="button" onclick="editCategory()" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </form>
+                    <form method="get" action="delete_category.php" style="display:inline;">
+                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($category_name); ?>">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+                    </form>
+                
+
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <?php foreach ($receipts as $receipt) { 
                         $id = $receipt['receipt_id'];
@@ -147,6 +142,16 @@ if ($result->num_rows > 0) {
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
                                         </form>
+                                        <?php if (isset($_SESSION['email'])) {
+                                            $email = $_SESSION['email'];
+
+                                            $sql = "SELECT admin FROM profil WHERE email = '$email'";
+                                            $result = mysqli_query($conn, $sql);
+
+                                            if ($result && mysqli_num_rows($result) > 0) {
+                                                $row = mysqli_fetch_assoc($result);
+
+                                                if ($row['admin'] == 1) { ?>
                                         <form method="get" action="receipt_edit.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
@@ -155,11 +160,17 @@ if ($result->num_rows > 0) {
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
                                         </form>
+                                        <?php }
+                                            }
+                                        }?>
+                                        
                                         <form method="post" action="liked.php">
                                             <input type="hidden" name="receipt_id" value="<?php echo $id; ?>">
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                                              </svg></button>
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                                </svg>
+                                            </button>
                                         </form>
                                     </div>
                                     <small class="text-body-secondary"><?php echo htmlspecialchars($time); ?> mins</small>
@@ -186,6 +197,30 @@ if ($result->num_rows > 0) {
     <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
    </script>
    <script src=../script2.js></script>
+   <script>function editCategory() {
+    let form = document.getElementById('editCategoryForm');
+    let formData = new FormData(form);
+
+    fetch('edit_category_ajax.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Frissítés vagy további teendők, ha sikeres volt a módosítás
+            alert('Category edited successfully!');
+            // Például frissítjük a megjelenített kategória nevét
+            let categoryHeading = form.parentElement;
+            categoryHeading.querySelector('h2').textContent = data.new_category_name;
+        } else {
+            alert('Failed to edit category!');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
 </body>
 </html>
-

@@ -165,10 +165,22 @@ function appendIngredients(ingredients) {
         div.innerHTML = `
             <input type="checkbox" id="${ingredient}" name="${ingredient}" value="${ingredient}" onclick="moveChecked(this)">
             <label for="${ingredient}">${ingredient}</label>
+            <form method="get" action="ingrediens_edit.php" style="display:inline;">
+                <input type="hidden" name="ingredient_id" value="${ingredient}">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+            </form>
+            <form method="get" action="delete_ingrediens.php" style="display:inline;">
+                <input type="hidden" name="ingredient_id" value="${ingredient}">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+            </form>
         `;
         ingredientsList.appendChild(div);
     });
 }
+
+
+
+
 
 function addEntry() {
     var entry = "<div class='input-group in_ingrediens'><div class='form-group ing_in'><label for='ingredientName' class='form-label'>Ingredient</label><input type='text' id='ingredientName' name='ingredients[]' placeholder='Enter ingredient here...' class='form-control' required='required'/></div><div class='form-group ms-2 ing_in'><label for='quantity' class='form-label'>Quantity</label><input type='text' id='quantity' name='quantities[]' placeholder='Enter quantity here...' class='form-control' required='required'/></div><button type='button' class='btn btn-danger btn-sm remove_btn' onclick='removeEntry(this);'>-</button></div>";

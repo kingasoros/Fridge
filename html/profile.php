@@ -141,65 +141,79 @@ if(isset($_SESSION['last_name']) && isset($_SESSION['phone_numb']) &&
     </div>
 </div>
 
-<!-- Section for liked recipes -->
-<h1 class="liked_header">Liked recipes</h1>
-<div class="cards">
-    <div class="wrapper"> 
-        <!-- Navigation arrows -->
-        <i id="left" class="fa-solid fas fa-angle-left">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-                <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
-            </svg>
-        </i> 
-        <!-- Carousel for liked recipes -->
-        <ul class="carousel"> 
-            <!-- Individual recipe cards -->
-            <?php
-            require "db_conn.php";
+    <h1 class="liked_header">Liked recipes</h1>
+    <div class="cards">
+        <div class="wrapper"> 
+            <i id="left" class="fa-solid fas fa-angle-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                    <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
+                </svg>
+            </i> 
+            <ul class="carousel"> 
+                <?php
+                require "db_conn.php";
 
-            // Lekérdezés végrehajtása
-            $query = "SELECT * FROM `receipt` WHERE likes = 1";
-            $result = $conn->query($query);
+                $query = "SELECT * FROM `receipt` WHERE likes = 1";
+                $result = $conn->query($query);
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $food_name = $row['food_name'];
-                    $time = $row['time'];
-                    $img = $row['img'];
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $recipe_id = $row['receipt_id'];
+                        $food_name = $row['food_name'];
+                        $time = $row['time'];
+                        $img = $row['img'];
 
-                    // HTML kód módosítása a recept adataival
-                    echo '<li class="card">';
-                    echo '<div class="img"><img src="images/' . $img .'" alt="" draggable="false"> </div>';
-                    echo '<div class="card-body">';
-                    echo '<p class="card-text">' . $food_name . '</p>';
-                    echo '<div class="d-flex justify-content-between align-items-center">';
-                    echo '<div class="btn-group">';
-                    echo '<a type="button" class="btn btn-sm btn-outline-secondary" href="rec_food.html">View</a>';
-                    echo '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>';
-                    echo '</div>';
-                    echo '<small class="text-body-secondary">' . $time . '</small>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</li>';
+                        echo '<li class="card" data-recipe-id="' . $recipe_id . '">';
+                        echo '<div class="img"><img src="images/' . $img . '" alt="" draggable="false"> </div>';
+                        echo '<div class="card-body">';
+                        echo '<p class="card-text">' . $food_name . '</p>';
+                        echo '<div class="d-flex justify-content-between align-items-center">';
+                        echo '<div class="btn-group">';
+                        echo '<a type="button" class="btn btn-sm btn-outline-secondary" href="rec.php">View</a>';
+                        echo '<button class="btn btn-sm btn-outline-danger btn-unlike">X</button>';
+                        echo '</div>';
+                        echo '<small class="text-body-secondary">' . $time . '</small>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</li>';
+                    }
+                } else {
+                    echo "No liked recipes found.";
                 }
-            } else {
-                echo "No liked recipes found.";
-            }
-            $conn->close();
-            ?>
-            <!-- Repeat the above structure for each recipe card -->
-        </ul> 
-        <!-- Navigation arrows -->
-        <i id="right" class="fa-solid fas fa-angle-right">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                <path d="M6 12.796V3.204L11.481 8zM6.659 13.549l5.48-4.796a1 1 0 0 0 0-1.506l-5.48-4.796A1 1 0 0 0 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-            </svg>
-        </i> 
+                $conn->close();
+                ?>
+            </ul> 
+            <i id="right" class="fa-solid fas fa-angle-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8zM6.659 13.549l5.48-4.796a1 1 0 0 0 0-1.506l-5.48-4.796A1 1 0 0 0 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                </svg>
+            </i> 
+        </div>
     </div>
-</div>
-
 
     <script src="../ajax.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.btn-unlike').on('click', function() {
+                var card = $(this).closest('.card');
+                var recipeId = card.data('recipe-id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_likes.php',
+                    data: { recipe_id: recipeId },
+                    success: function(response) {
+                        if (response === 'success') {
+                            card.remove();
+                        } else {
+                            alert('Error removing like.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
 <?php } ?>

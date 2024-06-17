@@ -10,8 +10,7 @@ if(isset($_POST['receipt_id'])){
 
 if (isset($_POST['food_name']) && isset($_POST['your_name']) &&
     isset($_POST['time']) && isset($_POST['price']) &&
-    isset($_POST['servings']) && isset($_POST['prep']) &&
-    isset($_POST['ingredients']) && isset($_POST['quantities']) ) {
+    isset($_POST['servings']) && isset($_POST['prep'])  ) {
 
     function validate($data) {
         $data = trim($data);
@@ -26,8 +25,8 @@ if (isset($_POST['food_name']) && isset($_POST['your_name']) &&
     $price = validate($_POST['price']);
     $servings = validate($_POST['servings']);
     $prep = validate($_POST['prep']);
-    $ingredients = $_POST['ingredients'];
-    $quantities = $_POST['quantities'];
+    // $ingredients = $_POST['ingredients'];
+    // $quantities = $_POST['quantities'];
 
 
     // Kapcsolódás az adatbázishoz

@@ -1,4 +1,3 @@
-<!-- This PHP script handles session management and database connection. -->
 <?php
 session_start();
 include "db_conn.php";

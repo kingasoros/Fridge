@@ -148,7 +148,7 @@ if ($ingrediens_result->num_rows > 0) {
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="fridge.php">Fridge</a></li>
             <li><a class="dropdown-item" href="rec_add.php">Adding recipes</a></li>
-            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="profile.php">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="sign_out.php">Sign out</a></li>
           </ul>
