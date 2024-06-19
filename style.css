@@ -409,6 +409,9 @@ a {
   text-decoration: none;
 }
 
+.small_print{
+  color:#7d7c7cad;
+}
 
   @media (min-width: 768px) {
   .col-md-6 {

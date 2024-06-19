@@ -69,6 +69,7 @@ if ($result->num_rows > 0) {
                           if ($row['admin'] == 1) { ?>
                               <li><hr class="dropdown-divider"></li>
                               <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+                              <li><a class="dropdown-item" href="update.php">UPDATE DATA</a></li>
                           <?php }
                       }
                   }
@@ -112,16 +113,7 @@ if ($result->num_rows > 0) {
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <?php foreach ($categories as $category_name => $receipts) { ?>
-                <h2 contenteditable="true"><?php echo htmlspecialchars($category_name); ?></h2>
-                    <form id="editCategoryForm" style="display:inline;">
-                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($category_name); ?>">
-                        <button type="button" onclick="editCategory()" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </form>
-                    <form method="get" action="delete_category.php" style="display:inline;">
-                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($category_name); ?>">
-                        <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
-                    </form>
-                
+                <h2 id="category"><?php echo $category_name; ?></h2> 
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <?php foreach ($receipts as $receipt) { 
@@ -197,6 +189,7 @@ if ($result->num_rows > 0) {
     <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
    </script>
    <script src=../script2.js></script>
+   <script src="../ajax2.js"></script>
    <script>function editCategory() {
     let form = document.getElementById('editCategoryForm');
     let formData = new FormData(form);

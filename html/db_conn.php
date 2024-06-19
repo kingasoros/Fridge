@@ -3,7 +3,7 @@
     define("DB", [
         'HOST' => 'localhost',
         'USER' => 'root',
-        'PASSWORD' => 'root',
+        'PASSWORD' => '',
         'NAME' => 'fridge'
     ]);
     

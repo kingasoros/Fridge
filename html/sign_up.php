@@ -49,6 +49,7 @@ session_start();
                           if ($row['admin'] == 1) { ?>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+                  <li><a class="dropdown-item" href="update.php">UPDATE DATA</a></li>
                   <?php }}}?>
                 </ul>
               </li>

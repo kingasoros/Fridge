@@ -44,6 +44,7 @@ $result = $conn->query($query);
                   <li><a class="dropdown-item" href="sign_up.php">REGISTRATION</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="adm.php">ADMINISTRATION</a></li>
+                  <li><a class="dropdown-item" href="update.php">UPDATE DATA</a></li>
                 </ul>
               </li>
             </ul>
