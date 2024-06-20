@@ -19,7 +19,7 @@ if (isset($_POST['id']) && isset($_POST['rating'])) {
         exit();
     } else {
      
-        $sql = "SELECT rate FROM rate WHERE receipt_id = ?";
+        $sql = "SELECT rate,rate_count FROM rate WHERE receipt_id = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "i", $id);
         mysqli_stmt_execute($stmt);
@@ -28,9 +28,13 @@ if (isset($_POST['id']) && isset($_POST['rating'])) {
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $pre_rate = $row['rate'];
+            $rate_count = $row['rate_count'];
 
             // Calculate the new average rate
-            $new_rate = ($pre_rate + $rate) / 2;
+            $new_rate = ($pre_rate*$rate_count);
+            $new_rate += $rate;
+            $rate_count+=1;
+            $new_rate/=$rate_count;
 
             // Update the rate in the database
             $sql_update = "UPDATE rate SET rate = ? WHERE receipt_id = ?";
@@ -38,14 +42,23 @@ if (isset($_POST['id']) && isset($_POST['rating'])) {
             mysqli_stmt_bind_param($stmt_update, "di", $new_rate, $id);
             $result_update = mysqli_stmt_execute($stmt_update);
 
-            if ($result_update) {
-                header("Location:rec.php?success=Success.");
-                exit();
-            } else {
+            if (!$result_update) {
                 header("Location:rec.php?error=Error.");
                 exit();
-            }
+            } 
 
+            $sql_update = "UPDATE rate SET rate_count = ? WHERE receipt_id = ?";
+            $stmt_update = mysqli_prepare($conn, $sql_update);
+            mysqli_stmt_bind_param($stmt_update, "di", $rate_count, $id);
+            $result_update = mysqli_stmt_execute($stmt_update);
+
+            if (!$result_update) {
+                header("Location:rec.php?error=Error.");
+                exit();
+            } 
+
+            header("Location:rec.php?success=Success.");
+                exit();
         } else {
             $sql2 = "INSERT INTO rate (receipt_id, rate) VALUES (?, ?)";
             $stmt2 = mysqli_prepare($conn, $sql2);
