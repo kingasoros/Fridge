@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jún 13. 14:33
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.0.28
+-- Létrehozás ideje: 2024. Jún 20. 15:17
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -62,8 +62,7 @@ INSERT INTO `ingrediens` (`ingrediens_id`, `name`) VALUES
 (34, 'salmon filet'),
 (35, 'carrots'),
 (36, 'radish'),
-(37, 'red cabbage'),
-(38, ' red cabbage');
+(37, 'ko');
 
 -- --------------------------------------------------------
 
@@ -84,29 +83,51 @@ CREATE TABLE `profil` (
   `activation_expire` datetime DEFAULT current_timestamp(),
   `forgotten_password_token` varchar(255) NOT NULL,
   `forgotten_password_expires` datetime NOT NULL DEFAULT current_timestamp(),
-  `img` varchar(255) NOT NULL
+  `img` varchar(255) NOT NULL,
+  `admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `profil`
 --
 
-INSERT INTO `profil` (`profil_id`, `password`, `last_name`, `phone_numb`, `user_name`, `first_name`, `email`, `activated`, `activation_token`, `activation_expire`, `forgotten_password_token`, `forgotten_password_expires`, `img`) VALUES
-(5, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Nagy', 659200318, 'Janika9', 'Jani', 'oravec.anett@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(7, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Seres', 659200318, 'Girly', 'Jazmin', 'seresjazmin@gmail.com', 0, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(8, 'cf54484152585938a98f86df5ba3316d', 'Nagy', 659200318, 'JaniExample', 'Jani', 'hmjgh@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(9, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Animegirl04', 'Kinga', '7ir6y7tir67iu@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(10, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Kata', 'Kinga', 'uyhkjmyukt@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(11, '7b17a441d87593e029b2e6b287bca618', 'Nagy', 659200318, 'Jani', 'Jani', 'yjt5yjue5t@gmail.com', 0, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(12, '7b17a441d87593e029b2e6b287bca618', 'Nagy', 659200318, 'Jani', 'Jani', 'yjute5ryjit6e@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(13, '7b17a441d87593e029b2e6b287bca618', 'Eni', 659200318, 'Eni', 'Eni', 'yhjtdrjty@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', ''),
-(28, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Torma', 659200318, 'Kittike', 'Kitti', 'gfhbnd@gmail.com', 1, '4691f62ff7e299626237798f6045c14e', '2024-05-12 18:29:52', '', '2024-06-07 00:09:35', ''),
-(29, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Nagy', 659200318, 'David', 'David', 'fbhd@gmail.com', 1, '5a9c702f87acb31331655911d380e07b', '2024-05-12 18:42:32', '', '2024-06-07 00:09:35', ''),
-(30, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Torma', 659200318, 'David', 'David', 'grfjhn@gmail.com', 1, '2906ef6a5b747ecd43ad32fb0f798bc9', '2024-05-12 18:45:11', '', '2024-06-07 00:09:35', ''),
-(31, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Kinga', 'Kitti', 'you@gmail.com', 1, '77c6a6f18649157a80fdba3314ea91e7', '2024-05-31 20:47:52', '', '2024-06-07 00:09:35', ''),
-(32, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Animegirl', 'Kinga', 'utr5eyujhet65y@gmail.com', 1, 'cd6bdbb1ab345e450f7fd82dd66809d9', '2024-06-02 19:37:16', '', '2024-06-07 00:09:35', ''),
-(33, '07a8d09abbb404f0364da296f02f3cd1', 'seres', 659200318, 'fel', 'kinga', 'ghjcgtyuj@gmail.com', 1, 'c08411afba32d2c67a25f50f23b6bbdf', '2024-06-03 14:43:32', '', '2024-06-07 00:09:35', ''),
-(35, '9bdaf14eb255bf0b2457e5bb8427de5e', 'Seres', 659200318, 'Animegirl', 'Kinga', 'kingasoros@gmail.com', 1, '3644808847ca09d156b606cfebe55e75', '2024-06-13 11:22:36', '', '2024-06-13 11:22:36', '20240613112236.jpg');
+INSERT INTO `profil` (`profil_id`, `password`, `last_name`, `phone_numb`, `user_name`, `first_name`, `email`, `activated`, `activation_token`, `activation_expire`, `forgotten_password_token`, `forgotten_password_expires`, `img`, `admin`) VALUES
+(5, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Nagy', 659200318, 'Janika9', 'Jani', 'oravec.anett@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(7, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Seres', 659200318, 'Girly', 'Jazmin', 'seresjazmin@gmail.com', 0, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(8, 'cf54484152585938a98f86df5ba3316d', 'Nagy', 659200318, 'JaniExample', 'Jani', 'hmjgh@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(9, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Animegirl04', 'Kinga', '7ir6y7tir67iu@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(10, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Kata', 'Kinga', 'uyhkjmyukt@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(11, '7b17a441d87593e029b2e6b287bca618', 'Nagy', 659200318, 'Jani', 'Jani', 'yjt5yjue5t@gmail.com', 0, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(12, '7b17a441d87593e029b2e6b287bca618', 'Nagy', 659200318, 'Jani', 'Jani', 'yjute5ryjit6e@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(13, '7b17a441d87593e029b2e6b287bca618', 'Eni', 659200318, 'Eni', 'Eni', 'yhjtdrjty@gmail.com', 1, '0', '2024-05-11 13:47:03', '', '2024-06-07 00:09:35', '', 0),
+(28, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Torma', 659200318, 'Kittike', 'Kitti', 'gfhbnd@gmail.com', 1, '4691f62ff7e299626237798f6045c14e', '2024-05-12 18:29:52', '', '2024-06-07 00:09:35', '', 0),
+(29, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Nagy', 659200318, 'David', 'David', 'fbhd@gmail.com', 1, '5a9c702f87acb31331655911d380e07b', '2024-05-12 18:42:32', '', '2024-06-07 00:09:35', '', 0),
+(30, '53e4e87a31b9f0cf83bc71bd917f7dc4', 'Torma', 659200318, 'David', 'David', 'grfjhn@gmail.com', 1, '2906ef6a5b747ecd43ad32fb0f798bc9', '2024-05-12 18:45:11', '', '2024-06-07 00:09:35', '', 0),
+(31, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Kinga', 'Kitti', 'you@gmail.com', 1, '77c6a6f18649157a80fdba3314ea91e7', '2024-05-31 20:47:52', '', '2024-06-07 00:09:35', '', 0),
+(32, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'Animegirl', 'Kinga', 'utr5eyujhet65y@gmail.com', 1, 'cd6bdbb1ab345e450f7fd82dd66809d9', '2024-06-02 19:37:16', '', '2024-06-07 00:09:35', '', 0),
+(33, '07a8d09abbb404f0364da296f02f3cd1', 'seres', 659200318, 'fel', 'kinga', 'ghjcgtyuj@gmail.com', 1, 'c08411afba32d2c67a25f50f23b6bbdf', '2024-06-03 14:43:32', '', '2024-06-07 00:09:35', '', 0),
+(35, '9bdaf14eb255bf0b2457e5bb8427de5e', 'Seres', 659200318, 'Animegirl', 'Kinga', 'kingasoros@gmail.com', 1, '3644808847ca09d156b606cfebe55e75', '2024-06-13 11:22:36', '', '2024-06-13 11:22:36', '20240613112236.jpg', 1),
+(36, '7b17a441d87593e029b2e6b287bca618', 'Seres', 659200318, 'gt', 'Kinga', 'me@gmail.com', 0, '344acbb5b2cfc9149436310f445811c0', '2024-06-19 13:27:32', '', '2024-06-19 13:27:32', '20240619132732.jpg', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `rate`
+--
+
+CREATE TABLE `rate` (
+  `rate_id` int(11) NOT NULL,
+  `receipt_id` int(11) NOT NULL,
+  `rate` float NOT NULL,
+  `rate_count` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `rate`
+--
+
+INSERT INTO `rate` (`rate_id`, `receipt_id`, `rate`, `rate_count`) VALUES
+(1, 36, 3.5, 4);
 
 -- --------------------------------------------------------
 
@@ -127,17 +148,18 @@ CREATE TABLE `receipt` (
   `activation_token` varchar(64) NOT NULL,
   `activation_expire` datetime NOT NULL DEFAULT current_timestamp(),
   `categories` varchar(100) NOT NULL,
-  `likes` tinyint(1) NOT NULL
+  `likes` tinyint(1) NOT NULL,
+  `yt` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `receipt`
 --
 
-INSERT INTO `receipt` (`receipt_id`, `img`, `paragraph`, `price`, `food_name`, `your_name`, `time`, `servings`, `activated`, `activation_token`, `activation_expire`, `categories`, `likes`) VALUES
-(35, '20240612221451.webp', 'Step1\r\nPreheat the oven to 375 degrees F (190 degrees C). \r\n\r\nStep2\r\nStir harissa paste, honey, olive oil, minced garlic, cumin, coriander, salt, and pepper together in a bowl. Rub the mixture over each chicken thigh and under the skin, ensuring each thig', 2000, 'Harissa Honey Chicken', 'France Cevallos', '00:00:50', '4', 1, '1d18928ad3f0cd0fc9acb0cb3e219286', '2024-06-12 22:14:51', 'Chicken main course', 1),
-(36, '20240612223229.webp', 'Step1\r\nCombine soy sauce, sake, rice vinegar, and brown sugar in a bowl and whisk well until sugar is dissolved.  Stir in sesame seeds and crushed red pepper and set aside. \r\n\r\nStep2\r\nHeat oils in a large skillet over high heat. Sprinkle salt and pepper e', 2200, 'Chicken Teriyaki', 'Nicole McLaughlin', '00:00:25', '3', 1, '98749217759397f55442570e07916043', '2024-06-12 22:32:29', 'Chicken main course', 1),
-(37, '20240613110619.webp', 'Step1\r\nPreheat the oven to 400 degrees F (200 degrees C) and spray a baking dish with cooking spray.\r\n\r\nStep2\r\nCombine soy sauce, brown sugar, garlic, and ginger in a small bowl. Place the salmon in the prepared baking dish, skin side down. Pour teriyaki ', 2100, 'Teriyaki Salmon Bowl', 'Chef Mo', '00:00:30', '1', 1, '8ed801b9901ad3dbc1125f54d40a1645', '2024-06-13 11:06:19', 'Fish', 0);
+INSERT INTO `receipt` (`receipt_id`, `img`, `paragraph`, `price`, `food_name`, `your_name`, `time`, `servings`, `activated`, `activation_token`, `activation_expire`, `categories`, `likes`, `yt`) VALUES
+(35, '20240612221451.webp', 'Step1\nPreheat the oven to 375 degrees F (190 degrees C). \n\nStep2\nStir harissa paste, honey, olive oil, minced garlic, cumin, coriander, salt, and pepper together in a bowl. Rub the mixture over each chicken thigh and under the skin, ensuring each thig', 2000, 'Harissa Honey Chicken', 'France Cevallos', '00:00:50', '4', 1, '1d18928ad3f0cd0fc9acb0cb3e219286', '2024-06-12 22:14:51', 'Chicken main course', 1, ''),
+(36, '20240612223229.webp', 'Step1\r\nCombine soy sauce, sake, rice vinegar, and brown sugar in a bowl and whisk well until sugar is dissolved.  Stir in sesame seeds and crushed red pepper and set aside. \r\n\r\nStep2\r\nHeat oils in a large skillet over high heat. Sprinkle salt and pepper e', 2200, 'Chicken Teriyaki', 'Nicole McLaughlin', '00:00:25', '3', 1, '98749217759397f55442570e07916043', '2024-06-12 22:32:29', 'Chicken main course', 1, 'https://www.youtube.com/embed/mhDJNfV7hjk?si=Taahd3JvBD3vfq-P\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" '),
+(37, '20240613110619.webp', 'Step1\r\nPreheat the oven to 400 degrees F (200 degrees C) and spray a baking dish with cooking spray.\r\n\r\nStep2\r\nCombine soy sauce, brown sugar, garlic, and ginger in a small bowl. Place the salmon in the prepared baking dish, skin side down. Pour teriyaki ', 2100, 'Teriyaki Salmon Bowl', 'Chef Mo', '00:00:30', '1', 1, '8ed801b9901ad3dbc1125f54d40a1645', '2024-06-13 11:06:19', 'Fishs', 0, '');
 
 -- --------------------------------------------------------
 
@@ -197,6 +219,20 @@ INSERT INTO `receipt_ingredient` (`receipt_ingredient_id`, `receipt_id`, `ingred
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `sensitivity`
+--
+
+CREATE TABLE `sensitivity` (
+  `sensitivity_id` int(11) NOT NULL,
+  `gluten_free` tinyint(1) NOT NULL,
+  `lactose_free` tinyint(1) NOT NULL,
+  `profil_id` int(11) NOT NULL,
+  `sugar_free` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `user_email_failures`
 --
 
@@ -224,6 +260,12 @@ ALTER TABLE `profil`
   ADD PRIMARY KEY (`profil_id`);
 
 --
+-- A tábla indexei `rate`
+--
+ALTER TABLE `rate`
+  ADD PRIMARY KEY (`rate_id`);
+
+--
 -- A tábla indexei `receipt`
 --
 ALTER TABLE `receipt`
@@ -236,6 +278,12 @@ ALTER TABLE `receipt_ingredient`
   ADD PRIMARY KEY (`receipt_ingredient_id`),
   ADD KEY `receipt_id` (`receipt_id`),
   ADD KEY `ingrediens_id` (`ingrediens_id`);
+
+--
+-- A tábla indexei `sensitivity`
+--
+ALTER TABLE `sensitivity`
+  ADD PRIMARY KEY (`sensitivity_id`);
 
 --
 -- A tábla indexei `user_email_failures`
@@ -251,13 +299,19 @@ ALTER TABLE `user_email_failures`
 -- AUTO_INCREMENT a táblához `ingrediens`
 --
 ALTER TABLE `ingrediens`
-  MODIFY `ingrediens_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `ingrediens_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT a táblához `profil`
 --
 ALTER TABLE `profil`
-  MODIFY `profil_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `profil_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT a táblához `rate`
+--
+ALTER TABLE `rate`
+  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `receipt`
@@ -270,6 +324,12 @@ ALTER TABLE `receipt`
 --
 ALTER TABLE `receipt_ingredient`
   MODIFY `receipt_ingredient_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT a táblához `sensitivity`
+--
+ALTER TABLE `sensitivity`
+  MODIFY `sensitivity_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `user_email_failures`

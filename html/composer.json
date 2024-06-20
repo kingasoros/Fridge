@@ -1,0 +1,5 @@
+{
+    "require": {
+        "hashemi/php-csv-export": "dev-master"
+    }
+}

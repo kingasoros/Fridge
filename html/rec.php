@@ -115,7 +115,7 @@ if ($result->num_rows > 0) {
     </nav>
 
     <main>
-    <button type="button" class="btn btn-secondary excel">Spreadsheet</button>
+    <button type="button" class="btn btn-secondary excel" id="spreadsheet_btn" >Spreadsheet</button>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <?php foreach ($categories as $category_name => $receipts) { ?>
@@ -257,7 +257,13 @@ if ($result->num_rows > 0) {
     });
 }
 
+document.getElementById("spreadsheet_btn").addEventListener("click",(e)=>generate_spreadsheet())
 
+function generate_spreadsheet(){
+    window.location.replace("spreadsheet.php");
+}
 </script>
+
+
 </body>
 </html>

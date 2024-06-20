@@ -9,7 +9,7 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 require_once "db_conn.php";
 
-$pdo = connectDatabase($dsn, $pdoOptions);
+// $pdo = connectDatabase($dsn, $pdoOptions);
 $GLOBALS['pdo'] = $pdo;
 //$GLOBALS['pdo'] = connectDatabase($dsn, $pdoOptions);
 

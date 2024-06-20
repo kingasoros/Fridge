@@ -1,5 +1,8 @@
 <?php
 require_once 'db_conn.php';
+if (isset($_GET['token'])) {
+    $token = trim($_GET['token']);
+}
 
 session_start();
 ?>
@@ -113,18 +116,38 @@ session_start();
             </div>
         </form>
 
-        <!-- <a href="#" id="fl">Have you forgotten your password?</a>
+        <a href="#" id="fl">Have you forgotten your password?</a>
         
-          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" name="forget" id="forgetForm" style="display: none;">
-              <div class="pt-3">
-                  <label for="forgetEmail" class="form-label">E-mail</label>
-                  <input type="text" class="form-control" id="forgetEmail" placeholder="Enter your e-mail address" name="email" required>
-                  <small></small>
-              </div>
-              <div class="pt-3">
-                  <input type="hidden" name="action" value="forget">
-                  <button type="submit" class="btn btn-primary">Reset password</button>
-              </div>
+          <form action="forget.php" method="post" name="forget" id="forgetForm" style="display: none;">
+          <div class="pt-3 field">
+                    <label for="resetEmail" class="form-label">E-mail address</label>
+                    <input type="text" class="form-control" id="resetEmail"
+                           placeholder="Enter valid e-mail address" name="resetEmail">
+                    <small></small>
+                </div>
+
+                <div class="pt-3 field">
+                    <label for="resetPassword" class="form-label">Password <i class="bi bi-eye-slash-fill"
+                                                                                 id="passwordEye"></i></label>
+                    <input type="password" class="form-control passwordVisibiliy" name="resetPassword" id="resetPassword"
+                           placeholder="Password (min 8 characters)">
+                    <small></small>
+                    <!-- <span id="strengthDisp" class="badge displayBadge">Weak</span> -->
+                </div>
+
+                <div class="pt-3 field">
+                    <label for="resetPasswordConfirm" class="form-label">Password confirm</label>
+                    <input type="password" class="form-control" name="resetPasswordConfirm" id="resetPasswordConfirm"
+                           placeholder="Password again">
+                    <small></small>
+                </div>
+
+                <div class="pt-3">
+                    <input type="hidden" name="action" value="resetPassword">
+                    <input type="hidden" name="token" value="<?php echo $token ?>">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="reset" class="btn btn-primary resetButton" >Cancel</button>
+                </div>
           </form>
           </div>
         <script>
@@ -143,7 +166,7 @@ session_start();
               e.preventDefault();
           });
       }
-      </script> -->
+      </script>
       
     </main>
 </div>

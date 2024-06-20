@@ -60,7 +60,7 @@ if (isset($_POST['id']) && isset($_POST['rating'])) {
             header("Location:rec.php?success=Success.");
                 exit();
         } else {
-            $sql2 = "INSERT INTO rate (receipt_id, rate) VALUES (?, ?)";
+            $sql2 = "INSERT INTO rate (receipt_id, rate, rate_count) VALUES (?, ?, '1')";
             $stmt2 = mysqli_prepare($conn, $sql2);
             mysqli_stmt_bind_param($stmt2, "id", $id, $rate);
             $result2 = mysqli_stmt_execute($stmt2);

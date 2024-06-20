@@ -1,0 +1,53 @@
+{
+    "packages": [
+        {
+            "name": "hashemi/php-csv-export",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hashemirafsan/php-csv-export.git",
+                "reference": "82d69ef7b2c537ecfb070445715563eeba3ba310"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hashemirafsan/php-csv-export/zipball/82d69ef7b2c537ecfb070445715563eeba3ba310",
+                "reference": "82d69ef7b2c537ecfb070445715563eeba3ba310",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "symfony/var-dumper": "5.2.x-dev"
+            },
+            "time": "2024-03-14T07:55:09+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Hashemi\\CsvExport\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hashemi Rafsan",
+                    "email": "rafsanhashemi@gmail.com"
+                }
+            ],
+            "description": "A simple & lightweight csv export package for php",
+            "support": {
+                "issues": "https://github.com/hashemirafsan/php-csv-export/issues",
+                "source": "https://github.com/hashemirafsan/php-csv-export/tree/master"
+            },
+            "install-path": "../hashemi/php-csv-export"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

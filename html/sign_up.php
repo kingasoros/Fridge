@@ -140,17 +140,6 @@ session_start();
                 <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com">
             </div><br>
 
-            <div class="col-12 opt_free">
-            <label for="option">Sensitivity:</label>
-              <select id="option" name="free">
-                <option value="none" selected>None</option>
-                <option value="gluten">Gluten intolerant</option>
-                <option value="lactose">Lactose intolerant</option>
-                <option value="sugar">Sugar intolerant</option>
-              </select>
-            </div>
-            
-
             <div class="input-group mb-3">
                   <label for="user_photo" class="form-label col-sm-12">Upload a picture of yourself:</label>
                   <input type="file" name="user_photo" class="form-control" id="user_photo"> <!-- Input field for uploading food photo -->
