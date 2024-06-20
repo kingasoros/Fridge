@@ -413,6 +413,53 @@ a {
   color:#7d7c7cad;
 }
 
+.rating{
+  text-align: right;
+}
+
+.popup {
+  display: none; 
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5% 10%;
+  background: #ffffffe9;
+  border: 1px solid #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+.popup-overlay {
+  display: none; 
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.checked {
+  background-color: orange;
+  }
+
+.rating_close{
+  align-items: center;
+  justify-content: center;
+  background-color: #ffc107;
+  margin:22% ;
+}
+
+.opt_free{
+  margin:2% 0;
+}
+
+.excel{
+  margin: 2% 0% 0% 87%;
+}
+
   @media (min-width: 768px) {
   .col-md-6 {
     flex: 0 0 auto;

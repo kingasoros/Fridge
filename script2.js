@@ -259,6 +259,28 @@ function findRecipes() {
     form.submit();
 }
 
+function openPopup() {
+    document.querySelector('.popup-overlay').style.display = 'block';
+    document.querySelector('.popup').style.display = 'block';
+}
+
+function closePopup() {
+    document.querySelector('.popup-overlay').style.display = 'none';
+    document.querySelector('.popup').style.display = 'none';
+}
+
+function rateStar(rating) {
+    const stars = document.querySelectorAll('.popup .fa-star');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.style.color = 'orange';
+        } else {
+            star.style.color = '';
+        }
+    });
+    console.log(`Rating is ${rating}`);
+    document.getElementById('ratingInput').value = rating;
+}
 
   
 

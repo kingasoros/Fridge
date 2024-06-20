@@ -46,7 +46,8 @@ if (
     $prep = validate($_POST['prep']);
     $ingredients = $_POST['ingredients'];
     $quantities = $_POST['quantities'];
-$categories = $_POST['categories'];
+    $categories = $_POST['categories'];
+    $yt=$_POST['yt'];
 // Validate form fields
 if (empty($food_name) || empty($your_name) || empty($time) || 
     empty($price) || empty($servings) || empty($prep) || empty($categories)) {
@@ -109,8 +110,8 @@ if (empty($food_name) || empty($your_name) || empty($time) ||
         }
 
         // Insert receipt data into database
-        $sql2 = "INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings, activation_token, categories) VALUES
-            ('$new_file_name', '$prep', '$price', '$food_name', '$your_name', '$time', '$servings', '$activationToken', '$categories')";
+        $sql2 = "INSERT INTO receipt (img, paragraph, price, food_name, your_name, time, servings, activation_token, categories, likes, yt) VALUES
+            ('$new_file_name', '$prep', '$price', '$food_name', '$your_name', '$time', '$servings', '$activationToken', '$categories','0', '$yt')";
         $result2 = mysqli_query($conn, $sql2);
 
         if ($result2) {

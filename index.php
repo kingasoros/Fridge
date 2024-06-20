@@ -37,20 +37,27 @@ session_start();
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="html/sign_in.php">SIGN IN</a></li>
                   <li><a class="dropdown-item" href="html/sign_up.php">REGISTRATION</a></li>
-                  <?php if (isset($_SESSION['email'])) {
-                      $email = $_SESSION['email'];
+                  <?php 
+                      if (isset($_SESSION['email'])) {
+                          $email = $_SESSION['email'];
+                          
+                          $sql = "SELECT admin FROM profil WHERE email = '$email'";
+                          $result = mysqli_query($conn, $sql);
+                          
+                          if ($result && mysqli_num_rows($result) > 0) {
+                              $row = mysqli_fetch_assoc($result);
+                              
+                              if ($row['admin'] == 1) { 
+                      ?>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="html/adm.php">ADMINISTRATION</a></li>
+                                  <li><a class="dropdown-item" href="html/update.php">UPDATE DATA</a></li>
+                      <?php 
+                              }
+                          }
+                      }
+                      ?>
 
-                      $sql = "SELECT admin FROM profil WHERE email = '$email'";
-                      $result = mysqli_query($conn, $sql);
-
-                      if ($result && mysqli_num_rows($result) > 0) {
-                          $row = mysqli_fetch_assoc($result);
-
-                          if ($row['admin'] == 1) { ?>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="html/adm.php">ADMINISTRATION</a></li>
-                  <li><a class="dropdown-item" href="html/update.php">UPDATE DATA</a></li>
-                  <?php }}}?>
                 </ul>
               </li>
             </ul>

@@ -101,6 +101,36 @@ if (isset($_POST['f_name']) && isset($_POST['l_name']) &&
             $sql2 = "INSERT INTO profil (password, last_name, phone_numb, user_name, first_name, email, activation_token, img) VALUES ('$pass', '$l_name', '$phone_numb','$uname','$f_name','$email','$activationToken','$new_file_name')";
             $result2 = mysqli_query($conn, $sql2);
     
+            $sensitivity=$_POST['free'];
+
+            $sql3 = "SELECT profil_id FROM profil WHERE email=$email";
+            $result3 = mysqli_query($conn, $sql3);
+
+            if ($result3) {
+                $row = mysqli_fetch_assoc($result3);
+                $id = $row['profil_id'];
+                
+                echo "Profil ID: " . $id;
+            switch($sensitivity){
+                case gluten:
+                    $sql4 = "INSERT INTO sensitivity (gluten_free, lactose_free, profil_id, sugar_free) VALUES ('1', '0', '$id','0')";
+                    $result4 = mysqli_query($conn, $sql4);
+                    break;
+                case lactose:
+                    $sql4 = "INSERT INTO sensitivity (gluten_free, lactose_free, profil_id, sugar_free) VALUES ('0', '1', '$id','0')";
+                    $result4 = mysqli_query($conn, $sql4);
+                    break;
+                case sugar:
+                    $sql4 = "INSERT INTO sensitivity (gluten_free, lactose_free, profil_id, sugar_free) VALUES ('0', '0', '$id','1')";
+                    $result4 = mysqli_query($conn, $sql4);
+                    break;
+                default:
+                    $sql4 = "INSERT INTO sensitivity (gluten_free, lactose_free, profil_id, sugar_free) VALUES ('0', '0', '$id','0')";
+                    $result4 = mysqli_query($conn, $sql4);
+                    break;
+            }
+            }
+
             if ($result2) {
                 // Send activation email
                 $activationLink = 'http://localhost/fridge_projekt/html/activate.php?token=' . $activationToken;

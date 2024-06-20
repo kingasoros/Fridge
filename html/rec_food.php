@@ -101,7 +101,7 @@ if ($ingrediens_result->num_rows > 0) {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="rec.html">RECIPES</a>
+            <a class="nav-link active" aria-current="page" href="rec.php">RECIPES</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="sign_in.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -180,6 +180,16 @@ if ($ingrediens_result->num_rows > 0) {
         <br><br><br>
         <h2>Preparation</h2> <!-- Preparation section heading -->
         <p><?php echo $paragraph; ?></p><br><br> <!-- Displaying the preparation paragraph -->
+        <?php $yt_query = "SELECT yt FROM receipt WHERE paragraph = '$paragraph'";
+        $yt_result = $conn->query($yt_query); 
+        if ($yt_result->num_rows > 0) {
+          while ($row = $yt_result->fetch_assoc()) {
+              // Check if YT link is not empty
+              if (!empty($row['yt'])) {
+                  echo '<iframe width="560" height="315" src="'.$row['yt'].'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">';
+              }
+          }
+      }?>
       </div>
     </div>
   </div>

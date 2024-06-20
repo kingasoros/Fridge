@@ -98,33 +98,38 @@
                <?php } ?>
               <div class="row g-3">
                 <div class="col-sm-12">
-                  <label for="foodName" class="form-label">Food name</label>
+                  <label for="foodName" class="form-label">Food name:*</label>
                   <input type="text" name="food_name" class="form-control" id="foodName" placeholder="Soup" required> <!-- Input field for food name -->
                 </div>
 
                 <div class="col-sm-12">
-                  <label for="yourName" class="form-label">Your name</label>
+                  <label for="yourName" class="form-label">Your name:*</label>
                   <input type="text" name="your_name" class="form-control" id="yourName" placeholder="Emese"  required> <!-- Input field for user name -->
                 </div>
 
                 <div class="col-sm-12">
-                  <label for="categories" class="form-label">Category</label>
+                  <label for="categories" class="form-label">Category:*</label>
                   <input type="text" name="categories" class="form-control" id="categories" placeholder="Vegan"  required> <!-- Input field for user name -->
                 </div>
           
                 <div class="col-sm-12">
-                  <label for="time" class="form-label">Cook time:</label>
+                  <label for="time" class="form-label">Cook time:*</label>
                   <input type="text" name="time" class="form-control" id="time" placeholder="30 Minutes" required> <!-- Input field for cook time -->
                 </div>
 
                 <div class="col-sm-12">
-                  <label for="price" class="form-label">Relative price (in dinar):</label>
+                  <label for="price" class="form-label">Relative price (in dinar):*</label>
                   <input type="text" name="price" class="form-control" id="price" placeholder="1500" required> <!-- Input field for price -->
                 </div>
 
                 <div class="col-sm-12">
-                  <label for="serv" class="form-label">Serves:</label>
+                  <label for="serv" class="form-label">Serves:*</label>
                   <input type="text" name="servings" class="form-control" id="serv" placeholder="10 Servings" required> <!-- Input field for servings -->
+                </div>
+
+                <div class="col-sm-12">
+                  <label for="time" class="form-label">Youtube link:</label>
+                  <input type="text" name="yt" class="form-control" id="time" placeholder="<iframe></iframe>" required> <!-- Input field for cook time -->
                 </div>
 
                 <div class="input-group mb-3">
@@ -135,11 +140,11 @@
                 <div class="input-group" id="ingredients">
                 <button type="button" class="btn btn-primary btn-sm add_btn" onclick="addEntry();"><span class="glyphicon glyphicon-plus"></span>+</button> <!-- Button to add ingredient -->
                   <div class="form-group ing_in">
-                    <label for="ingredientName" class="form-label">Ingredient</label>
+                    <label for="ingredientName" class="form-label">Ingredient:</label>
                     <input type="text" id="ingredientName" name="ingredients[]" placeholder="Enter ingredient here..." class="form-control" required="required"/> <!-- Input field for ingredient -->
                   </div>
                   <div class="form-group ms-2 ing_in">
-                    <label for="quantity" class="form-label">Quantity</label>
+                    <label for="quantity" class="form-label">Quantity:</label>
                     <input type="text" id="quantity" name="quantities[]" placeholder="Enter quantity here..." class="form-control" required="required"/> <!-- Input field for quantity -->
                   </div>
                   
@@ -149,7 +154,7 @@
                <br><br>
                 <div class="form-floating">
                   <textarea class="form-control" placeholder="About the recipes" name="prep" id="floatingTextarea2" style="height: 100px"></textarea>
-                  <label for="floatingTextarea2">Preparation</label> <!-- Text area for preparation -->
+                  <label for="floatingTextarea2">Preparation:*</label> <!-- Text area for preparation -->
                 </div>
                 <br><br>
                 <button class="w-100 btn btn-primary btn-lg butt_2" type="submit">Upload</button> <!-- Upload button -->

@@ -3,6 +3,7 @@
 session_start();
 require "db_conn.php";
 
+
 $receipts_query = "
     SELECT categories, receipt_id, food_name, time, img
     FROM receipt
@@ -35,7 +36,11 @@ if ($result->num_rows > 0) {
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="../style.css">
+        
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -110,6 +115,7 @@ if ($result->num_rows > 0) {
     </nav>
 
     <main>
+    <button type="button" class="btn btn-secondary excel">Spreadsheet</button>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <?php foreach ($categories as $category_name => $receipts) { ?>
@@ -125,6 +131,42 @@ if ($result->num_rows > 0) {
                     <div class="col">
                         <div class="card shadow-sm">
                         
+                        <div class='bi-star-fill star'>
+                            <?php
+                            $sql6 = "SELECT rate FROM rate WHERE receipt_id=$id";
+                            $result6 = $conn->query($sql6);
+
+                            if ($result6->num_rows > 0) {
+                                while($row6 = $result6->fetch_assoc()) {
+                                    echo $row6["rate"];
+                                }
+                            } else {
+                                echo 0;
+                            }
+                            ?>
+                        </div>
+
+                        <a class="rating" href="#" onclick="openPopup()">Rating...</a>
+
+                        <div class="popup-overlay" onclick="closePopup()"></div>
+                        <div class="popup">
+                        <h2>Star Rating</h2>
+                        <span class="fa fa-star" onclick="rateStar(1)"></span>
+                        <span class="fa fa-star" onclick="rateStar(2)"></span>
+                        <span class="fa fa-star" onclick="rateStar(3)"></span>
+                        <span class="fa fa-star" onclick="rateStar(4)"></span>
+                        <span class="fa fa-star" onclick="rateStar(5)"></span>
+                            <br><br>
+                            <form id="ratingForm" action="rating.php" method="post">
+                                <input type="hidden" name="id" value="<?php echo $id?>">
+                                <input type="hidden" name="rating" id="ratingInput" value="">
+                                <button type="submit rating_close">Submit Rating</button>
+                            </form>
+                            
+                            <button class="rating_close" onclick="closePopup()">Close</button>
+                        </div>
+                            
+
                             <img class="card_imgs" src="images/<?php echo $img?>" alt="Recipe Image">
                             <div class="card-body">
                                 <p class="card-text"><?php echo htmlspecialchars($food_name); ?></p>
@@ -214,6 +256,8 @@ if ($result->num_rows > 0) {
         console.error('Error:', error);
     });
 }
+
+
 </script>
 </body>
 </html>
