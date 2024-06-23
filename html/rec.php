@@ -146,26 +146,27 @@ if ($result->num_rows > 0) {
                             ?>
                         </div>
 
-                        <a class="rating" href="#" onclick="openPopup()">Rating...</a>
-
-                        <div class="popup-overlay" onclick="closePopup()"></div>
-                        <div class="popup">
-                        <h2>Star Rating</h2>
-                        <span class="fa fa-star" onclick="rateStar(1)"></span>
-                        <span class="fa fa-star" onclick="rateStar(2)"></span>
-                        <span class="fa fa-star" onclick="rateStar(3)"></span>
-                        <span class="fa fa-star" onclick="rateStar(4)"></span>
-                        <span class="fa fa-star" onclick="rateStar(5)"></span>
-                            <br><br>
-                            <form id="ratingForm" action="rating.php" method="post">
-                                <input type="hidden" name="id" value="<?php echo $id?>">
-                                <input type="hidden" name="rating" id="ratingInput" value="">
-                                <button type="submit rating_close">Submit Rating</button>
-                            </form>
-                            
-                            <button class="rating_close" onclick="closePopup()">Close</button>
+                        <!-- <a class="rating" href="#" onclick="openPopup()">Rating...</a> -->
+                        <a class="rating" href="#" data-id="<?php echo $id ?>" onclick="test(event)">Rating...</a>
+                        <div id="modal<?php echo $id ?>" class="hidden">
+                            <div class="popup-overlay" onclick="closePopup()"></div>
+                            <div class="popup">
+                                <h2>Star Rating</h2>
+                                <span class="fa fa-star" onclick="rateStar(1)"></span>
+                                <span class="fa fa-star" onclick="rateStar(2)"></span>
+                                <span class="fa fa-star" onclick="rateStar(3)"></span>
+                                <span class="fa fa-star" onclick="rateStar(4)"></span>
+                                <span class="fa fa-star" onclick="rateStar(5)"></span>
+                                <br><br>
+                                <form id="ratingForm" action="rating.php" method="post">
+                                    <input type="hidden" name="id" value="<?php echo $id ?>">
+                                    <input type="hidden" name="rating" id="ratingInput" value="">
+                                    <button type="submit" class="rating_close">Submit Rating</button>
+                                </form>
+                                <button class="rating_close" onclick="closePopup()">Close</button>
+                            </div>
                         </div>
-                            
+
 
                             <img class="card_imgs" src="images/<?php echo $img?>" alt="Recipe Image">
                             <div class="card-body">

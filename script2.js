@@ -254,11 +254,11 @@ function findRecipes() {
         input.value = ingredient.value;
         form.appendChild(input);
     });
-
     document.body.appendChild(form);
     form.submit();
 }
-
+//'[id^="modal' + id + '"]');
+  
 function openPopup() {
     document.querySelector('.popup-overlay').style.display = 'block';
     document.querySelector('.popup').style.display = 'block';
@@ -281,9 +281,3 @@ function rateStar(rating) {
     console.log(`Rating is ${rating}`);
     document.getElementById('ratingInput').value = rating;
 }
-
-  
-
-
-
-

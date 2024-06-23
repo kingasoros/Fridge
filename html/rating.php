@@ -69,7 +69,7 @@ if (isset($_POST['id']) && isset($_POST['rating'])) {
                 header("Location:rec.php?success=Success.");
                 exit();
             } else {
-                header("Location:rec.php?error=Error.");
+                header("Location:rec.php?error=Error1.");
                 exit();
             }
         }
